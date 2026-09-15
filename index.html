@@ -20,8 +20,7 @@
 
     --bg-header-1: #1b13b0;  /* Couleur de fond de la 1ère ligne d'en-tête */
     --bg-header-2: #254e75;
-    --bg-sticky-1:var(--bg-header-1) /* Couleur du texte de la 2ème ligne d'en-tête */
-    --bg-3: #eed2ee;  /* Couleur de fond de la 2ème ligne d'en-tête */
+    --bg-sticky-1:var(--bg-header-1); /* Couleur du texte de la 2ème ligne d'en-tête */
     --text-header-1: #ffffff;/* Couleur du texte de la 1ère ligne d'en-tête */
     --col1-width: 165px;
     --col2-width: 65px;
@@ -50,9 +49,10 @@
     --ligne2:#4a525d;
     --survol:#308f5ff2;
     
-    --border1:#b9c6d2;
+    --border1: 1px solid #b9c6d2;
     --border2: 2px solid #b9c6d2;
     --border3: 3px solid #b9c6d2;
+    --border-groupe: 3px solid #b9c6d2;
     
     --ombre:0 2px 8px rgba(0,0,0,.12);  
   }
@@ -87,6 +87,8 @@
   .table-container {
     width: 100%;
     overflow: auto !important; /* Déclenche les défilements H/V */
+    padding-right: 15px; /* Évite que le contenu soit masqué par la barre de défilement verticale */
+    padding-bottom: 15px; /* Évite que le contenu soit masqué par la barre de défilement horizontale */
     max-height: 75vh !important; /* Garde de l'espace sur mobile pour défiler la page globale */
     flex-grow: 1;       /* Remplit tout l'espace vertical disponible */
     margin-bottom: 15px !important; /* Marge externe sous le conteneur */
@@ -103,8 +105,9 @@
     border-collapse: separate; /* Obligatoire pour éviter les bugs de borders sticky */
     border-spacing: 0;
     /* Correction des bordures extérieures pour le mode 'separate' */
-    border-top: 1px solid var(--border1);
-    border-left: 1px solid var(--border1);
+    border-top: var(--border1);
+    border-left: var(--border1);
+    border-right: var(--border-groupe);
     /* INDISPENSABLE pour les colonnes variables : la table s'adapte à son contenu */
     width: max-content !important; /* S'adapte automatiquement à la somme de toutes les colonnes */
     min-width: 900px !important;
@@ -114,8 +117,8 @@
   th, td {
     box-sizing: border-box !important;
     padding: 7px 10px;
-    border-right: 1px solid var(--border1);
-    border-bottom: 1px solid var(--border1);
+    border-right: var(--border1);
+    border-bottom: var(--border1);
     white-space: nowrap; /* Empêche le texte de sauter à la ligne involontairement */
     color: var(--texte3);
     font-weight: 500;    
@@ -434,10 +437,11 @@ table td a, table th a:hover {
 </head>
 <body>
     <h1>Historique des Résultats YCÔNE 2026  &#8195;</h1>
-    <a style="font-size: 1rem;color:var(--lien);" href="https://www.ofrance2026.fr/fr/pages/resultats.html#r%C3%A9sultats" 
-    target="_blank">Lien Résultats</a> -->
-    <h2>du 16/08/2026 au 31/12/2026 &#8195&#8195&#8195&#8195&#8195&#8195 <!--Lien : 
-      <a style="color:var(--lien);" href="https://erikpier2.github.io/ycone_resultats/" target="_blank"><i>HISTORIQUE</i></a> --></h2>
+  
+    <h2>du 16/08/2026 au 31/12/2026 &#8195&#8195&#8195&#8195&#8195&#8195 Lien : 
+      <a style="color:var(--lien);" href="https://erikpier2.github.io/ycone_resultats/" target="_blank"><i>HISTORIQUE</i></a> 
+    
+    </h2>
 <div id="loading">Chargement des données...</div>      
       <!-- C'est cette div qui portera vos barres de défilement et vos limites de hauteur -->
 <div id="excel-table-container" class="table-container"></div>  
@@ -491,12 +495,41 @@ table td a, table th a:hover {
             const lines = textData.split(/\r?\n/);
             if (lines.length === 0) throw new Error("Le fichier CSV est vide.");
 
+            // 1.2. Détection des colonnes sans données
+            // On stocke les index des colonnes qui contiennent au moins une cellule non vide
+            const colonnesAvecDonnees = new Set();   
+            lines.forEach((line, rowIndex) => {
+                if (line.trim() === "" || /^;+$/.test(line.trim())) return; 
+                // On n'analyse que les lignes de données (à partir de la 3ème ligne, index >= 2) 
+                if (rowIndex >= 2) {              
+                    const cells = line.split(';');
+                    cells.forEach((cellValue, colIndex) => {
+                        if (cellValue.trim() !== "") {
+                            colonnesAvecDonnees.add(colIndex); // On marque cette colonne comme ayant des données
+                    }
+                });
+              }  
+            }); 
+
+             // On vérifie si le groupe de 5 colonnes dynamiques contient la moindre données
+            function estGroupeActif(indexDeDepart) {
+                for (let i = 0; i < 5; i++) {
+                    if (colonnesAvecDonnees.has(indexDeDepart +i)) return true;
+                }
+                return false; // Le groupe de 5 colonnes est 100% vide sur tout le fichier
+              }
+
+            // 2. Construction du tableau HTML
             let htmlRaw = "<table><thead>";
             let isBodyOpen = false;
+            // --- CONFIGURATION DE VOS COLONNES À COLORER ---
+            // Indiquez ici les index (commençant à 0) des colonnes de choix que vous voulez colorer
+            // Exemple : index 4 (5ème colonne) et index 9 (10ème colonne)
+            const colonnesDeChoix = [4,9,14,19,24,29,34,39,44,49,54,59,64,69,74,79,84,89,94,99]; // Modifiez selon vos besoins
 
             lines.forEach((line, rowIndex) => {
                     // Nettoie les lignes vides, les lignes d'espaces et les résidus Excel (;;;;;)
-                    if (!line || line.trim() === "" || /^;+$/.test(line.trim())) return;                             
+                    if (line.trim() === "" || /^;+$/.test(line.trim())) return;                             
 
                     const cells = line.split(';');
 
@@ -511,17 +544,26 @@ table td a, table th a:hover {
                         isBodyOpen = true;
                     }
                   
-                    htmlRaw += `<tr${rowClass}>`;
-                
-                // --- CONFIGURATION DE VOS COLONNES À COLORER ---
-                // Indiquez ici les index (commençant à 0) des colonnes de choix que vous voulez colorer
-                // Exemple : index 4 (5ème colonne) et index 9 (10ème colonne)
-                const colonnesDeChoix = [4,9,14,19,24,29,34,39,44,49,54,59,64,69,74,79,84,89,94,99]; // Modifiez selon vos besoins
-
-                cells.forEach((cellValue, colIndex) => {
-                    let cleanValue = cellValue.trim();
-                    const cellTag = rowIndex < 2 ? 'th' : 'td';
+                    htmlRaw += `<tr${rowClass}>`; 
                     
+                    // On utilise un index de cellule virtuel pour gérer les sauts (skip) de fusions corrctement
+                    let colVirtualIndex = 0;
+
+                    for (let colIndex = 0; colIndex < cells.length; colIndex++) {
+                        let cleanValue = cells[colIndex].trim();
+                        const cellTag = rowIndex < 2 ? 'th' : 'td';
+                    
+                    //---Configuration auto des masquage de groupes
+
+                        if (colIndex >= 3) {
+                            // Calcule l'index de départ du groupe de 5 auquel appartient la colonne actuelle (3,8,13,18,23...)
+                        const startGroupIdx = 3 + Math.floor((colIndex -3) / 5) * 5;
+                            // Si ce groupe spécifique est complètement vide, on l'ignore silencieusement
+                            if  (!estGroupeActif(startGroupIdx)) {
+                                continue; // Passe directement à la ligne suivante (ligne1, ligne2 et tbody inclus !)                                
+                            }
+                        }
+                            
                     // --- CSS DES COLONNES FIXES ---
                     let cellClass = "";
                     if (colIndex === 0) cellClass = 'col-1';
@@ -535,7 +577,7 @@ table td a, table th a:hover {
                         if (timeParts.length === 3) {
                             const hours = timeParts[0].trim();
                             if (hours === '00' || hours === '0' || hours === '') {
-                                cleanValue = `${timeParts[1]}:${timeParts[2]}`; // Fonctionne maintenant sans erreur !
+                                cleanValue = `${timeParts[1]}:${timeParts[2]}`; 
                             }
                         }
                     }                    
@@ -545,6 +587,20 @@ table td a, table th a:hover {
                         cellClass += ' col-choix';
                     }
 
+                    // ---RÉCUPÉRATION DU CONTENU DE LA CELLULE AVEC LIEN CLIQUABLE---
+                    // Gestion des liens cliquables
+                    let displayContent = cleanValue;
+
+                    // A. Vérifie si le texte exact de la cellule est présent dans votre dictionnaire
+                    if (liensPersonnalises[cleanValue]) {
+
+                        displayContent = `<a href="${liensPersonnalises[cleanValue]}" target="_blank">${cleanValue}</a>`;
+                    }
+                    // B. Sécurité : Si la cellule contient déjà un lien brut écrit en texte (http...)
+                    else if (cleanValue.startsWith('http://') || cleanValue.startsWith('https://')) {
+                        displayContent = `<a href="${cleanValue}" target="_blank">${cleanValue}</a>`;
+                    }
+                    
                     // --- DÉTECTION ET FOND NEUTRE POUR LES GROUPES DE 5 CELLULES VIDES ---
                     if (rowIndex >= 2 && colIndex >= 3) {
                         // On calcule à quel groupe de 5 appartient la cellule (ex: col 3 à 7 = groupe 0, col 8 à 12 = groupe 1)
@@ -591,118 +647,56 @@ table td a, table th a:hover {
                                 cleanValue = `${jour}/${moisNum}`;
                             }
                         }
-                    }  
+                    } 
 
-                    // Gestion des liens cliquables
-                let displayContent = cleanValue;
+                    // --- CONFIGURATION DE VOS FUSIONS DE LIGNES (Ligne 1) ---
+                    let colspanAttr = "";
+                    let skipCell = false;
 
-                  // A. Vérifie si le texte exact de la cellule est présent dans votre dictionnaire
-                    if (liensPersonnalises[cleanValue]) {
-                        displayContent = `<a href="${liensPersonnalises[cleanValue]}" target="_blank">${cleanValue}</a>`;
-                    }
-                    // B. Sécurité : Si la cellule contient déjà un lien brut écrit en texte (http...)
-                    else if (cleanValue.startsWith('http://') || cleanValue.startsWith('https://')) {
-                        displayContent = `<a href="${cleanValue}" target="_blank">${cleanValue}</a>`;
-                    }
+                    if (rowIndex === 0) {  
+                    // Bloc fusionné 1 (index 0 à 2)
+                    if (colIndex === 0) {                    
+                      colspanAttr = ' colspan="3"'; 
+                    } else if (colIndex === 1 || colIndex === 2) { skipCell = true; }  
+                                      
+                    // Traitement auto de 20 Grandes groupe colonnes
+                    else if (colIndex >=3) { 
+                    // On trouve l'emplacement relatif de la colonne àl'intérieur de son bloc de 5(0,1,2,3,4)
+                            const positionDansLeBloc = (colIndex - 3) % 5;  
+                            if (positionDansLeBloc === 0) {
+                            // C'est la première colonne d'un bloc actif : on lui donne sa fusion de 5
+                            colspanAttr = ' colspan="5" ';  
+                            } else {
+                            // Ce sont les 4 cellules suivantes du bloc: on les fusionne (efface)
+                            skipCell = true;                            
+                            }
+                          }  
+                        }
+                        if (skipCell) continue;
 
-                  // --- CONFIGURATION DE VOS FUSIONS DE LIGNES (Ligne 1) ---
-                let colspanAttr = "";
-                let skipCell = false;
+                        htmlRaw += `<${cellTag} class="${cellClass}"${colspanAttr}>${displayContent}</${cellTag}>`;
+                            }
 
-                if (rowIndex === 0) { 
-                    if (colIndex === 0) { colspanAttr = ' colspan="3"'; }
-                    else if (colIndex === 1 || colIndex === 2) { skipCell = true; }
+                        htmlRaw += "</tr>";
+                        });
 
-                    else if (colIndex === 3) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 4 && colIndex <= 7) { skipCell = true; }
+                      htmlRaw += isBodyOpen ? "</tbody></table>"  : "</thead></table>";
+                      
+                      const container = document.getElementById('excel-table-container');
+                      container.innerHTML = htmlRaw;
 
-                    else if (colIndex === 8) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 9 && colIndex <= 12) { skipCell = true; }
+                      document.getElementById('loading').style.display = 'none';
 
-                    else if (colIndex === 13) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 14 && colIndex <= 17) { skipCell = true; }
+                  } catch (error) {
+                      console.error("Détails :", error);
+                      document.getElementById('loading').innerText = "Erreur : " + error.message;
+                  }
+              }
 
-                    else if (colIndex === 18) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 19 && colIndex <= 22) { skipCell = true; }
-
-                    else if (colIndex === 23) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 24 && colIndex <= 27) { skipCell = true; }
-
-                    else if (colIndex === 28) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 29 && colIndex <= 32) { skipCell = true; }
-
-                    else if (colIndex === 33) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 34 && colIndex <= 37) { skipCell = true; }
-
-                    else if (colIndex === 38) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 39 && colIndex <= 42) { skipCell = true; }
-
-                    else if (colIndex === 43) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 44 && colIndex <= 47) { skipCell = true; }
-
-                    else if (colIndex === 48) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 49 && colIndex <= 52) { skipCell = true; }
-
-                    else if (colIndex === 53) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 54 && colIndex <= 57) { skipCell = true; }
-
-                    else if (colIndex === 58) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 59 && colIndex <= 62) { skipCell = true; }
-
-                    else if (colIndex === 63) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 64 && colIndex <= 67) { skipCell = true; }
-
-                    else if (colIndex === 68) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 69 && colIndex <= 72) { skipCell = true; }
-
-                    else if (colIndex === 73) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 74 && colIndex <= 77) { skipCell = true; }
-
-                    else if (colIndex === 78) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 79 && colIndex <= 82) { skipCell = true; }
-
-                    else if (colIndex === 83) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 84 && colIndex <= 87) { skipCell = true; }
-
-                    else if (colIndex === 88) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 89 && colIndex <= 92) { skipCell = true; }
-
-                    else if (colIndex === 93) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 94 && colIndex <= 97) { skipCell = true; }
-
-                    else if (colIndex === 98) { colspanAttr = ' colspan="5"'; }
-                    else if (colIndex >= 99 && colIndex <= 102) { skipCell = true; }
-
-
-                }
-              
-                if (skipCell) return; // Ignore la cellule si elle est fusionnée
-
-                // Génération finale de la cellule
-                    htmlRaw += `<${cellTag} class="${cellClass}"${colspanAttr}>${displayContent}</${cellTag}>`;
-                });
-                
-                htmlRaw += "</tr>";
-            });
-
-            htmlRaw += isBodyOpen ? "</tbody></table>" : "</thead></table>";
-
-            const container = document.getElementById('excel-table-container');
-            container.innerHTML = htmlRaw;
-
-            // Masquer le message de chargement
-            document.getElementById('loading').style.display = 'none';
-
-        } catch (error) {
-            console.error("Détails :", error);
-            document.getElementById('loading').innerText = "Erreur : " + error.message;
-        }
-    }
-
-    window.onload = loadCsvTable;
+              window.onload = loadCsvTable;
 </script>
 </div>
 </div>  
-<p style=" color :#e0dada ">Tableau mis à jour le 14/09/2026 11:10</p>
+<p style=" color :#e0dada ">Tableau mis à jour le 16/09/2026 24:10</p>
 </body>
 </html>
