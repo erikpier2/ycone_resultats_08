@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>Horaires/Résultats YCÔNE septembre 2026 </title>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.6, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.6, maximum-scale=3.0, user-scalable=yes, viewport-fit=cover" />    
+    <meta name="author" content="erikpier"> 
+  
+<style>
+      /* Désactive les calculs de padding/border en dehors de la largeur définie */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  /* --- STICKY GÉOMÉTRIE PARFAITE --- */
+  :root {
+    --line1-height: 32px; /* Ajustez selon la hauteur réelle de votre ligne 1 */
+
+    --bg-header-1: #1b13b0;  /* Couleur de fond de la 1ère ligne d'en-tête */
+    --bg-header-2: #254e75;
+    --bg-sticky-1:var(--bg-header-1); /* Couleur du texte de la 2ème ligne d'en-tête */
+    --text-header-1: #ffffff;/* Couleur du texte de la 1ère ligne d'en-tête */
+    --col1-width: 165px;
+    --col2-width: 65px;
+    --col3-width: 50px; 
+    --col2-left: 230px;  /* Égal à --col1-width */           
+    
+    --bg-fond:darkslategray;
+    --bg-fond1:#1b13b0;
+    --bg-fond2:#ff8000;
+    --bg-fond3:#88ea88;
+    --texte1:#f5c60aed;
+    --texte2:#d7c98d;
+    --texte3:#f3cece;
+    --texte4: yellow;
+    --texte5: #b7ff00;
+    --texte6: #351c1c;
+    --lien:#42a9ed;
+    --lien1:#a8d6f5;
+    --titre:#0b4f8a;
+    
+    --table:#ffffff;
+    --entete:#d8eaf8;
+    --entete-texte:#222;     
+    
+    --ligne1:#252a30;
+    --ligne2:#4a525d;
+    --survol:#308f5ff2;
+    
+    --border1: 1px solid #b9c6d2;
+    --border2: 2px solid #b9c6d2;
+    --border3: 3px solid #b9c6d2;
+    --border-groupe: 3px solid #b9c6d2;
+    
+    --ombre:0 2px 8px rgba(0,0,0,.12);  
+  }
+  
+  html, body {
+    width: 100%;
+    margin: 0;
+    padding: 5px;
+    box-sizing: border-box;
+    overflow: auto !important; /* Permet le défilement global de la page si le conteneur déborde*/
+    font-family:Segoe UI, Arial, Helvetica, sans-serif; 
+    /* Autorise tous les gestes natifs du navigateur (zoom + scroll) */
+    touch-action: manipulation !important; 
+    background:var(--bg-fond);
+    font-size: 13px;
+  }
+  
+  /* Figer le titre h1 en haut */
+  h1 {
+    background: var(--bg-fond); /* Fond pour éviter la transparence */        
+    position: sticky;
+    flex-shrink: 0;     /* Empêche les titres de se réduire si la fenêtre est petite */
+    margin: 0 0 6px 0; 
+    font-size: 1.5rem;
+    color:var(--texte1); 
+    z-index: 10;
+  }    
+  
+  h2 { margin: 0 0 12px 0; font-size: 1.1rem; color:var(--texte2); } 
+  
+  /* --- LE CONTENEUR AVEC EFFET MAISON (Pour le fun) */
+  .table-container {
+    width: 100%;
+    overflow: auto !important; /* Déclenche les défilements H/V */
+    padding-right: 15px;    /* Espace entre le tableau et la barre de défilement droite */
+    padding-bottom: 15px;   /* Espace entre le tableau et la barre de défilement bas */
+    max-height: 75vh !important; /* Garde de l'espace sur mobile pour défiler la page globale */
+    flex-grow: 1;       /* Remplit tout l'espace vertical disponible */
+    margin-bottom: 15px !important; /* Marge externe sous le conteneur */
+    /* Active le défilement matériel fluide tactile */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y pinch-zoom !important; 
+    /* --- OPTIMISATION FLUIDITÉ / ACCÉLÉRATION MATÉRIELLE --- */
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position; /* Prépare le navigateur au défilement */
+    transform: translateZ(0);     /* Force le rendu par la carte graphique (GPU) */   
+  }
+  
+  table { /* --- LA TABLE (Calcul de largeur strict) --- */
+    border-collapse: separate; /* Obligatoire pour éviter les bugs de borders sticky */
+    border-spacing: 0;
+    /* Correction des bordures extérieures pour le mode 'separate' */
+    border-top: var(--border1);
+    border-left: var(--border1);
+    border-right: var(--border-groupe);
+    /* INDISPENSABLE pour les colonnes variables : la table s'adapte à son contenu */
+    width: max-content !important; /* S'adapte automatiquement à la somme de toutes les colonnes */
+    min-width: 900px !important;
+    table-layout: auto !important; /* Permet l'autofit sur les colonnes variables */
+    /*margin-bottom: 15px !important;  Crée l'espace de décalage en bas du tableau */
+     /*margin-right: 10px !important; Crée l'espace de décalage à droite du tableau */
+  }
+  
+  th, td {
+    box-sizing: border-box !important;
+    padding: 7px 10px;
+    border-right: var(--border1);
+    border-bottom: var(--border1);
+    white-space: nowrap; /* Empêche le texte de sauter à la ligne involontairement */
+    color: var(--texte3);
+    font-weight: 500;    
+  }
+  th.dynamic-col a {
+    color: var(--text-header-1);
+  }
+  
+  /* Ligne 1 */ 
+  .sticky-row-1 th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    color: var(--text-header-1);
+    font-weight: 500;
+    
+  }
+  .sticky-row-1 th.sticky-parent {
+    left: 0;
+    z-index: 30;
+    background-color: var(--bg-header-1);    
+  }
+
+  /* Ligne 2 */
+  .sticky-row-2 th {
+    position: sticky;
+    top: var(--line1-height);
+    z-index: 10;
+    background-color: var(--bg-header-2); 
+    color: var(--text-header-1);
+    font-weight: 500;
+  }
+  
+  /* CONFIGURATION STRICTE DES 3 PREMIÈRES COLONNES (En-tête et Corps) */
+  .col-1, tbody td:nth-child(1) {
+    position: sticky; left: 0;
+    background: fixed; /* Assure que le fond reste fixe lors du défilement */
+    width: var(--col1-width);
+    min-width: var(--col1-width);
+    max-width: var(--col1-width);
+  }
+  .col-2, tbody td:nth-child(2) {
+    position: sticky; left: 165px;
+    width: var(--col2-width);
+    min-width: var(--col2-width);
+    max-width: var(--col2-width);
+  }
+  
+  .col-3, tbody td:nth-child(3) {
+    position: sticky !important;
+    left: var(--col2-left) !important;
+    width: var(--col3-width);
+    min-width: var(--col3-width);
+    max-width: var(--col3-width);
+  } 
+  
+  /* Gestion fine des z-index pour éviter les superpositions bizarres */
+  .sticky-row-1 .col-1, .sticky-row-1 .col-2, .sticky-row-1 .col-3 { z-index: 30; background: var(--bg-header-1);color: var(--text-header-1); }
+  .sticky-row-2 .col-1, .sticky-row-2 .col-2, .sticky-row-2 .col-3 { z-index: 25; background: var(--bg-header-1);color: var(--text-header-1); }
+  tbody td:nth-child(1), tbody td:nth-child(2), tbody td:nth-child(3) { z-index: 5; background: var(--bg-header-1);color: var(--text-header-1); }
+  
+  /* Style des colonnes variables défilantes */
+  /* 2. Configurez l'Autofit dynamique sur les colonnes suivantes */
+  .dynamic-col, tbody td:not(:nth-child(-n+3)) {
+    width: max-content !important;  /* Force l'Autofit sur le texte le plus long */
+    /*min-width: 120px;              /* Sécurité : évite que la colonne soit trop étroite si la cellule est presque vide */
+    white-space: nowrap;            /* Empêche le texte de sauter à la ligne involontairement */
+    background-color: var(--bg-header-2);
+  }  
+    
+/* ---  ALTERNANCE DE COULEUR (À partir de la 4ème colonne) --- */
+/* Lignes impaires */
+  tbody tr:nth-child(odd) td:not(:nth-child(-n+3)) {
+    background: var(--ligne1);
+  }
+  
+  /* Lignes paires */
+  tbody tr:nth-child(even) td:not(:nth-child(-n+3)) {
+    background: var(--ligne2);
+  }
+  
+  /* --- CENTRER CELLULES Applique le centrage sur les colonnes 5, 7 et 8 dans le corps du tableau */
+  tbody td:nth-child(5),tbody td:nth-child(6), tbody td:nth-child(7), tbody td:nth-child(8), 
+  tbody td:nth-child(10), tbody td:nth-child(11), tbody td:nth-child(12), tbody td:nth-child(13), 
+  tbody td:nth-child(15), tbody td:nth-child(16), tbody td:nth-child(17), tbody td:nth-child(18),
+  tbody td:nth-child(20), tbody td:nth-child(21), tbody td:nth-child(22), tbody td:nth-child(23),
+  tbody td:nth-child(25), tbody td:nth-child(26), tbody td:nth-child(27), tbody td:nth-child(28),
+  tbody td:nth-child(30), tbody td:nth-child(31), tbody td:nth-child(32), tbody td:nth-child(33),
+  tbody td:nth-child(35), tbody td:nth-child(36), tbody td:nth-child(37), tbody td:nth-child(38),
+  tbody td:nth-child(40), tbody td:nth-child(41), tbody td:nth-child(42), tbody td:nth-child(43),
+  tbody td:nth-child(45), tbody td:nth-child(46), tbody td:nth-child(47), tbody td:nth-child(48)
+  {
+    text-align: center;
+  }
+
+  /* --- EFFET DE SURVOL (HOVER) --- */
+  tbody tr:hover td:not(:nth-child(-n+3)) { 
+    background-color: var(--survol) !important;
+    color: var(--texte4);
+    transition: background-color 0.15s ease;
+    cursor: pointer;
+  }
+
+  /* --- STYLISATION DES COLONNES DE CHOIX --- */
+  /* En ciblant directement les "td" qui ont la classe "col-choix" à l'intérieur du "tbody",
+   le navigateur donne la priorité absolue à cette couleur, qu'il s'agisse d'une ligne paire ou impaire */
+  tbody td.col-choix {
+    color: var(--texte5) !important; /* Votre couleur de choix (ex: jaune, bleu, etc.) */
+    font-weight: 600 !important; 
+  }
+  /* --- FOND NEUTRE POUR LES GROUPES VIDES --- */
+  /* Si un groupe de 5 cellules est totalement vide, on applique un fond neutre (ex: gris très foncé ou transparent) */
+  .groupe-vide {
+    background-color: var(--bg-fond1) !important; /* Couleur neutre qui se fond dans votre arrière-plan 'darkslategray' */
+    opacity: 0.6; /* Optionnel : estompe légèrement la zone */
+  }
+  /* --- ADAPTATION ORDINATEUR (ECRANS DE PC) --- */
+    @media screen and (min-width: 769px) {
+  html, body {
+    height: 100vh;
+    overflow: hidden; /* Supprime l'ascenseur de la page web globale sur PC */
+    display: flex;
+    flex-direction: column;
+    }
+  .table-container {
+    flex-grow: 1;
+    max-height: none; /* Le tableau prend tout le reste de l'écran */
+    }
+  }
+    @page {
+      size: landscape;
+    width: 100%;
+    }
+    @media screen and (orientation: portrait) {
+      #toolbar {
+    width: 100%;
+  }      
+    }
+    @media screen and (orientation: landscape) {
+      #toolbar{
+        min-height: 100%;
+    width: 100%;
+  }  
+    }
+/* --- ADAPTATION SMARTPHONE EN MODE PAYSAGE --- */
+  @media screen and (max-height: 500px) and (orientation: landscape) {
+  
+  .table-container {
+    /* On réduit la hauteur max pour laisser respirer le bas de la page */
+    max-height: 65vh !important; 
+    margin-bottom: 15px !important; /* Marge externe sous le conteneur */
+    }
+
+  /* Espace d'aisance supplémentaire en bas du body pour le défilement global */
+  body {
+    padding-bottom: 20px !important;
+    }
+  }  
+
+   /* 1. Encadrement du titre Ligne 1 (colspan="5") */
+  /* Si c'est le 3ème <th> de la ligne 1 */
+thead tr:nth-child(1) th {
+  border-top: var(--border2);
+}    
+thead tr:nth-child(1) th:nth-child(2) {
+  border-left: var(--border2) !important;
+  border-right: var(--border3) !important;
+}
+thead tr:nth-child(1) th:nth-child(3) {
+  border-right: var(--border3) !important;
+}
+
+
+/* 2. Bordure GAUCHE du groupe (Colonne 4) */
+thead tr:nth-child(2) th:nth-child(4),
+tbody tr td:nth-child(4) {
+  border-left: var(--border3) !important;
+}
+
+/* 3. Bordure DROITE du groupe (Colonne 8) */
+thead tr:nth-child(2) th:nth-child(8),
+tbody tr td:nth-child(8) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 13) */
+thead tr:nth-child(2) th:nth-child(13),
+tbody tr td:nth-child(13) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 18) */
+thead tr:nth-child(1) th:nth-child(4),
+thead tr:nth-child(2) th:nth-child(18),
+tbody tr td:nth-child(18) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 23) */
+thead tr:nth-child(1) th:nth-child(5),
+thead tr:nth-child(2) th:nth-child(23),
+tbody tr td:nth-child(23) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 28) */
+thead tr:nth-child(1) th:nth-child(6),
+thead tr:nth-child(2) th:nth-child(28),
+tbody tr td:nth-child(28) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 33) */
+thead tr:nth-child(1) th:nth-child(7),
+thead tr:nth-child(2) th:nth-child(33),
+tbody tr td:nth-child(33) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 38) */
+thead tr:nth-child(1) th:nth-child(8),
+thead tr:nth-child(2) th:nth-child(38),
+tbody tr td:nth-child(38) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 43) */
+thead tr:nth-child(1) th:nth-child(9),
+thead tr:nth-child(2) th:nth-child(43),
+tbody tr td:nth-child(43) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 48) */
+thead tr:nth-child(1) th:nth-child(10),
+thead tr:nth-child(2) th:nth-child(48),
+tbody tr td:nth-child(48) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 53) */
+thead tr:nth-child(1) th:nth-child(11),
+thead tr:nth-child(2) th:nth-child(53),
+tbody tr td:nth-child(53) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 58) */
+thead tr:nth-child(1) th:nth-child(12),
+thead tr:nth-child(2) th:nth-child(58),
+tbody tr td:nth-child(58) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 63) */
+thead tr:nth-child(1) th:nth-child(13),
+thead tr:nth-child(2) th:nth-child(63),
+tbody tr td:nth-child(63) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 68) */
+thead tr:nth-child(1) th:nth-child(14),
+thead tr:nth-child(2) th:nth-child(68),
+tbody tr td:nth-child(68) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 73) */
+thead tr:nth-child(1) th:nth-child(15),
+thead tr:nth-child(2) th:nth-child(73),
+tbody tr td:nth-child(73) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 78) */
+thead tr:nth-child(1) th:nth-child(16),
+thead tr:nth-child(2) th:nth-child(78),
+tbody tr td:nth-child(78) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 83) */
+thead tr:nth-child(1) th:nth-child(17),
+thead tr:nth-child(2) th:nth-child(83),
+tbody tr td:nth-child(83) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 88) */
+thead tr:nth-child(1) th:nth-child(18),
+thead tr:nth-child(2) th:nth-child(88),
+tbody tr td:nth-child(88) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 93) */
+thead tr:nth-child(1) th:nth-child(19),
+thead tr:nth-child(2) th:nth-child(93),
+tbody tr td:nth-child(93) {
+  border-right: var(--border3) !important;
+}
+/* Bordure DROITE (Colonne 98) */
+thead tr:nth-child(1) th:nth-child(20),
+thead tr:nth-child(2) th:nth-child(98),
+tbody tr td:nth-child(98) {
+  border-right: var(--border3) !important;
+}
+
+/* --- EFFET AU SURVOL DES LIENS (Dans le corps du tableau) --- */
+/* 1. Style de base des liens pour qu'ils soient bien visibles */
+thead tr:nth-child(1) a {
+  /* color: var(--lien); */
+  /*background-color: var(--texte3);  Utilise votre variable de couleur de lien actuelle */
+  /*text-decoration: none;  Supprime le soulignement par défaut pour un look plus moderne */
+  display: inline-block;
+  width:auto; /* Permet de survoler toute la cellule si le texte est long */
+}
+
+/* 2. Changement de fond de la cellule entière quand on survole le lien */
+table td a, table th a:has(a):hover {
+  background-color: var(--texte4) !important; /* Applique un fond bleu très léger (adapté à votre variable --lien) */
+  transition: background-color 0.2s ease; /* Rend la transition fluide */
+}
+
+/* 3. Optionnel : Souligner légèrement le texte du lien au survol pour accentuer l'effet */
+table td a, table th a:hover {
+  color: var(--texte6);
+  background-color: var(--bg-fond3); /* Devient un peu plus clair au survol */
+  text-decoration: underline; 
+}
+</style>
+</head>
+<body>
+<div id="body">     
+    <h1>Horaires/Résultats YCÔNE 2026  &#8195;</h1>
+    <!--<a style="font-size: 1rem;color:var(--lien);" href="https://www.ofrance2026.fr/fr/pages/resultats.html#r%C3%A9sultats" 
+    target="_blank">Lien Résultats</a> -->
+    <h2>du 01/09/2026 au 31/12/2026 &#8195&#8195&#8195&#8195&#8195&#8195 Lien : 
+      <a style="color:var(--lien);" href="https://erikpier2.github.io/ycone_2026/" target="_blank"><i>HISTORIQUE</i></a>
+      <span>&#8195&#8195&#8195&#8195&#8195&#8195</span>
+      <a style="color:var(--lien);" href="https://erikpier2.github.io/ycone_resultats_08/" target="_blank"><i>#</i></a>    
+    </h2>
+<div id="loading">Chargement des données...</div>      
+      <!-- C'est cette div qui portera vos barres de défilement et vos limites de hauteur -->
+<div id="excel-table-container" class="table-container"></div>  
+<!-- Moteur d'analyse ultra-léger et autonome intégré directement dans la page -->
+<script>
+    const csvFileUrl = 'donnees.csv';
+
+        // 1. VOTRE DICTIONNAIRE DE LIENS (Modifiez les textes et les URL ici)
+    const liensPersonnalises = {
+        "MD rég. Nuits(21) 06/09": "https://drive.google.com/file/d/1rsiQQXgQLVTRWuBlzRlPZ0U-1UvcdDQs/view?usp=sharing",
+        "1.Rés.": "https://oresults.eu/events/3764/results?class=BLEU",
+        "LD Rég. Curley(21) 13/09": "https://drive.google.com/file/d/1qn1yX338IorayOL3KMJYmGZYRmOoAY0q/view?usp=sharing",
+        "2.Rés.": "https://drive.google.com/file/d/1Qs-U3SPQvGYnUNJuyxWE-q7rTOeQZ-zZ/view?usp=sharing",
+        "CO-VTT CDL Sprint Curley(21) 13/09": "https://drive.google.com/file/d/1utogAuQwHQ7woPKs4-5L8SolHiTtIZcB/view?usp=sharing",
+        "CDL(IF) Sprint Elancourt(78) 13/09": "https://www.go78.org/joomla3/index.php?option=com_content&view=article&id=193&Itemid=206",
+        "4.Rés.": "https://www.go78.org/joomla3/documents/resultats/20260913_CL_Sprint_Officiels_par_Categories.html",
+        "CDL Sprint Besançon(25) 20/09": "https://drive.google.com/file/d/1w9EgJ9REnCdApoE4p2OTHfrTkqIUVHKh/view?usp=sharing",
+        "5.Circ.": "https://www.orientationteambesancon.fr/Chpt-ligue-Sprint-et-departementale-MD-20-09-26.q.htm",
+        "MD Urbaine Besançon(25) 20/09": "https://drive.google.com/file/d/1xGKkh7nHj81lcsKLRsPG6fvEJjNGKLx9/view?usp=sharing",
+        "6.Circ.": "https://www.orientationteambesancon.fr/Chpt-ligue-Sprint-et-departementale-MD-20-09-26.q.htm",
+        "CO-VTT CDL MD Daix(21) 26/09": "https://drive.google.com/file/d/1qIQpiPC4JfpQLW7JnokVopFdwxJJ0Qry/view?usp=sharing",
+        "7.Circ.": "https://drive.google.com/file/d/1vI3ZGyrmmaJ4kG2DrSrLMfTXtDwArSIx/view?usp=sharing",
+        "MD Rég. E1 Gissey(21) 27/09": "https://drive.google.com/file/d/1Cfswova1DMjYTvdnlwcenJ7D-XN9KgQc/view?usp=sharing",
+        "8.Circ.": "https://drive.google.com/file/d/1vI3ZGyrmmaJ4kG2DrSrLMfTXtDwArSIx/view?usp=sharing",
+        "CO-VTT CDL Mass Start E2 Grenant(21) 27/09": "https://drive.google.com/file/d/11DS-_Nso2dJvG_h6_FU5EQ1PsKO49a31/view?usp=sharing",
+        "9.Circ.": "https://drive.google.com/file/d/1vI3ZGyrmmaJ4kG2DrSrLMfTXtDwArSIx/view?usp=sharing",
+        "WE O'C 2026 MD #1 Verzy(51) 3/10": "https://drive.google.com/file/d/13rh8275fnctn08SkDEeZ5CfRXV988Jlm/view?usp=sharing",
+        "WE O'C 2026 MD nocturne #2 Epernay(51)": "https://drive.google.com/file/d/1hG-n4jmgPdSit7Pq5FttxUt9YLBb8IBY/view?usp=sharing",
+        "WE O'C 2026 LD #3 Rilly(51) 4/10": "https://drive.google.com/file/d/12IXeSOxItg8tH6pJ_h1ExJ78mYyniKgO/view?usp=sharing",
+        "NSE Sprint Lambesc(13) 3/10": "https://nse2026.paca-co.fr/wp-content/uploads/2026/09/Annonce-de-course-CO-a-pied-Nationale-LAMBESC-v1.5.pdf",
+        "NSE LD Meyrargues(13) 4/10": "https://nse2026.paca-co.fr/wp-content/uploads/2026/08/Annonce-de-course-CO-a-pied-Nationale-Meyrargues-v1.3.pdf",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+        "": "",
+          };
+
+    async function loadCsvTable() {
+        try {
+            const response = await fetch(csvFileUrl);
+            if (!response.ok) throw new Error("Le fichier 'aout2026.csv' est introuvable.");
+            
+            // 1. Lecture binaire forcée en Windows-1252 pour corriger les accents é, à, ç
+            const buffer = await response.arrayBuffer();
+            const decoder = new TextDecoder('windows-1252'); // Force la lecture des é, à, ç corrects
+            const textData = decoder.decode(buffer);
+            
+            const lines = textData.split(/\r?\n/);
+            if (lines.length === 0) throw new Error("Le fichier CSV est vide.");
+
+            // 1.2. Détection des colonnes sans données
+            // On stocke les index des colonnes qui contiennent au moins une cellule non vide
+            const colonnesAvecDonnees = new Set();   
+            lines.forEach((line, rowIndex) => {
+                if (line.trim() === "" || /^;+$/.test(line.trim())) return; 
+                // On n'analyse que les lignes de données (à partir de la 3ème ligne, index >= 2) 
+                if (rowIndex >= 2) {              
+                    const cells = line.split(';');
+                    cells.forEach((cellValue, colIndex) => {
+                        if (cellValue.trim() !== "") {
+                            colonnesAvecDonnees.add(colIndex); // On marque cette colonne comme ayant des données
+                    }
+                });
+              }  
+            }); 
+
+             // On vérifie si le groupe de 5 colonnes dynamiques contient la moindre données
+            function estGroupeActif(indexDeDepart) {
+                for (let i = 0; i < 5; i++) {
+                    if (colonnesAvecDonnees.has(indexDeDepart +i)) return true;
+                }
+                return false; // Le groupe de 5 colonnes est 100% vide sur tout le fichier
+              }
+
+            // 2. Construction du tableau HTML
+            let htmlRaw = "<table><thead>";
+            let isBodyOpen = false;
+            // --- CONFIGURATION DE VOS COLONNES À COLORER ---
+            // Indiquez ici les index (commençant à 0) des colonnes de choix que vous voulez colorer
+            // Exemple : index 4 (5ème colonne) et index 9 (10ème colonne)
+            const colonnesDeChoix = [4,9,14,19,24,29,34,39,44,49,54,59,64,69,74,79,84,89,94,99]; // Modifiez selon vos besoins
+
+            lines.forEach((line, rowIndex) => {
+                    // Nettoie les lignes vides, les lignes d'espaces et les résidus Excel (;;;;;)
+                    if (line.trim() === "" || /^;+$/.test(line.trim())) return;                             
+
+                    const cells = line.split(';');
+
+                    // Gestion des classes de lignes d'en-tête (sticky)
+                    let rowClass = "";
+                    if (rowIndex === 0) rowClass = ' class="sticky-row-1"';
+                    else if (rowIndex === 1) rowClass = ' class="sticky-row-2"';
+
+                    // Transition entre l'en-tête (thead) et le corps (tbody)
+                    if (rowIndex === 2 && !isBodyOpen) {
+                        htmlRaw += "</thead><tbody>";
+                        isBodyOpen = true;
+                    }
+                  
+                    htmlRaw += `<tr${rowClass}>`; 
+                    
+                    // On utilise un index de cellule virtuel pour gérer les sauts (skip) de fusions corrctement
+                    let colVirtualIndex = 0;
+
+                    for (let colIndex = 0; colIndex < cells.length; colIndex++) {
+                        let cleanValue = cells[colIndex].trim();
+                        const cellTag = rowIndex < 2 ? 'th' : 'td';
+                    
+                    //---Configuration auto des masquage de groupes
+
+                        if (colIndex >= 3) {
+                            // Calcule l'index de départ du groupe de 5 auquel appartient la colonne actuelle (3,8,13,18,23...)
+                        const startGroupIdx = 3 + Math.floor((colIndex -3) / 5) * 5;
+                            // Si ce groupe spécifique est complètement vide, on l'ignore silencieusement
+                            if  (!estGroupeActif(startGroupIdx)) {
+                                continue; // Passe directement à la ligne suivante (ligne1, ligne2 et tbody inclus !)                                
+                            }
+                        }
+                            
+                    // --- CSS DES COLONNES FIXES ---
+                    let cellClass = "";
+                    if (colIndex === 0) cellClass = 'col-1';
+                    else if (colIndex === 1) cellClass = 'col-2';
+                    else if (colIndex === 2) cellClass = 'col-3';
+                    else cellClass = 'dynamic-col';
+
+                    // --- CORRECTION DU FILTRE DES TEMPS (Moins de 1 heure -> mm:ss) ---
+                    if (cleanValue.includes(':')) {
+                        const timeParts = cleanValue.split(':');
+                        if (timeParts.length === 3) {
+                            const hours = timeParts[0].trim();
+                            if (hours === '00' || hours === '0' || hours === '') {
+                                cleanValue = `${timeParts[1]}:${timeParts[2]}`; 
+                            }
+                        }
+                    }                    
+
+                        // --- COLORATION DES COLONNES DE CHOIX ---
+                    if (colonnesDeChoix.includes(colIndex) && rowIndex >= 2) {
+                        cellClass += ' col-choix';
+                    }
+
+                    // ---RÉCUPÉRATION DU CONTENU DE LA CELLULE AVEC LIEN CLIQUABLE---
+                    // Gestion des liens cliquables
+                    let displayContent = cleanValue;
+
+                    // A. Vérifie si le texte exact de la cellule est présent dans votre dictionnaire
+                    if (liensPersonnalises[cleanValue]) {
+
+                        displayContent = `<a href="${liensPersonnalises[cleanValue]}" target="_blank">${cleanValue}</a>`;
+                    }
+                    // B. Sécurité : Si la cellule contient déjà un lien brut écrit en texte (http...)
+                    else if (cleanValue.startsWith('http://') || cleanValue.startsWith('https://')) {
+                        displayContent = `<a href="${cleanValue}" target="_blank">${cleanValue}</a>`;
+                    }
+                    
+                    // --- DÉTECTION ET FOND NEUTRE POUR LES GROUPES DE 5 CELLULES VIDES ---
+                    if (rowIndex >= 2 && colIndex >= 3) {
+                        // On calcule à quel groupe de 5 appartient la cellule (ex: col 3 à 7 = groupe 0, col 8 à 12 = groupe 1)
+                        const debutGroupe = 3 + Math.floor((colIndex - 3) / 5) * 5;
+                        const finGroupe = debutGroupe + 5;
+
+                        // On extrait les 5 cellules de ce groupe sur la ligne actuelle
+                        const cellulesDuGroupe = cells.slice(debutGroupe, finGroupe);
+
+                        // On vérifie si TOUTES les cellules de ce groupe sont vides
+                        const estGroupeEntierementVide = cellulesDuGroupe.every(val => val.trim() === "");
+
+                        if (estGroupeEntierementVide) {
+                            cellClass += ' groupe-vide';
+                        }
+                    }
+
+
+                    // --- CORRECTION DES DATES EXCEL (Ex: "sept.-12" ou "09/12/2026" -> "9/12") ---
+                    // Détecte le format de date généré par Excel (ex: sep-12, sept.-12, 09/12/2012)
+                    if (cleanValue.includes('-') || (cleanValue.includes('/') && cleanValue.split('/').length === 3)) {
+                        // Liste des mois pour faire la correspondance
+                        const mois = {
+                            "janv": "1", "févr": "2", "mars": "3", "avr": "4", "mai": "5", "juin": "6",
+                            "juil": "7", "août": "8", "sept": "9", "oct": "10", "nov": "11", "déc": "12",
+                            "sep": "9", "feb": "2", "apr": "4", "aug": "8", "dec": "12" // Sécurité anglais/raccourcis
+                        };
+                      
+                        // Cas 1 : Excel a exporté sous forme "sept.-12" ou "sep-12"
+                        if (cleanValue.includes('-')) {
+                            const parts = cleanValue.toLowerCase().replace('.', '').split('-');
+                            if (parts.length === 2 && mois[parts[0]]) {
+                                cleanValue = `${mois[parts[0]]}/${parts[1]}`;
+                            }
+                        }
+                        // Cas 2 : Excel a exporté sous forme "09/12/2012" (format date complet jj/mm/aaaa ou mm/jj/aaaa)
+                        // Si votre colonne Pl. exprime la 9ème place sur 12, Excel stocke souvent le 9 du mois sur le 12ème mois
+                        else {
+                            const parts = cleanValue.split('/');
+                            // On récupère le jour (09 -> 9) et le mois (12)
+                            const jour = parseInt(parts[0], 10);
+                            const moisNum = parseInt(parts[1], 10);
+                            if (moisNum === 12) { // Sécurité pour s'assurer qu'on cible votre format sur 12
+                                cleanValue = `${jour}/${moisNum}`;
+                            }
+                        }
+                    } 
+
+                    // --- CONFIGURATION DE VOS FUSIONS DE LIGNES (Ligne 1) ---
+                    let colspanAttr = "";
+                    let skipCell = false;
+
+                    if (rowIndex === 0) {  
+                    // Bloc fusionné 1 (index 0 à 2)
+                    if (colIndex === 0) {                    
+                      colspanAttr = ' colspan="3"'; 
+                    } else if (colIndex === 1 || colIndex === 2) { skipCell = true; }  
+                                      
+                    // Traitement auto de 20 Grandes groupe colonnes
+                    else if (colIndex >=3) { 
+                    // On trouve l'emplacement relatif de la colonne àl'intérieur de son bloc de 5(0,1,2,3,4)
+                            const positionDansLeBloc = (colIndex - 3) % 5;  
+                            if (positionDansLeBloc === 0) {
+                            // C'est la première colonne d'un bloc actif : on lui donne sa fusion de 5
+                            colspanAttr = ' colspan="5" ';  
+                            } else {
+                            // Ce sont les 4 cellules suivantes du bloc: on les fusionne (efface)
+                            skipCell = true;                            
+                            }
+                          }  
+                        }
+                        if (skipCell) continue;
+
+                        htmlRaw += `<${cellTag} class="${cellClass}"${colspanAttr}>${displayContent}</${cellTag}>`;
+                            }
+
+                        htmlRaw += "</tr>";
+                        });
+
+                      htmlRaw += isBodyOpen ? "</tbody></table>"  : "</thead></table>";
+                      
+                      const container = document.getElementById('excel-table-container');
+                      container.innerHTML = htmlRaw;
+
+                      document.getElementById('loading').style.display = 'none';
+
+                  } catch (error) {
+                      console.error("Détails :", error);
+                      document.getElementById('loading').innerText = "Erreur : " + error.message;
+                  }
+              }
+
+              window.onload = loadCsvTable;
+</script>
+</div>
+</div>  
+<p style=" color :#e0dada ">Tableau des horaires et résultats mis à jour le 16/09/2026 24:10</p>
+</body>
+</html>
