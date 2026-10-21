@@ -9,444 +9,732 @@
     <meta name="author" content="erikpier"> 
   
 <style>
-      /* Désactive les calculs de padding/border en dehors de la largeur définie */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
+    /* =========================================================
+        CONFIGURATION GÉNÉRALE
+    ========================================================= */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
 
-  /* --- STICKY GÉOMÉTRIE PARFAITE --- */
-  :root {
-    --line1-height: 32px; /* Ajustez selon la hauteur réelle de votre ligne 1 */
+    /* =========================================================
+        VARIABLES
+    ========================================================= */
+    :root {
 
-    --bg-header-1: #1b13b0;  /* Couleur de fond de la 1ère ligne d'en-tête */
-    --bg-header-2: #254e75;
-    --bg-sticky-1:var(--bg-header-1); /* Couleur du texte de la 2ème ligne d'en-tête */
-    --text-header-1: #ffffff;/* Couleur du texte de la 1ère ligne d'en-tête */
-    --col1-width: 165px;
-    --col2-width: 65px;
-    --col3-width: 50px; 
-    --col2-left: 230px;  /* Égal à --col1-width */           
-    
-    --bg-fond:darkslategray;
-    --bg-fond1:#1b13b0;
-    --bg-fond2:#ff8000;
-    --bg-fond3:#88ea88;
-    --texte1:#f5c60aed;
-    --texte2:#d7c98d;
-    --texte3:#f3cece;
-    --texte4: yellow;
-    --texte5: #b7ff00;
-    --texte6: #351c1c;
-    --lien:#42a9ed;
-    --lien1:#a8d6f5;
-    --titre:#0b4f8a;
-    
-    --table:#ffffff;
-    --entete:#d8eaf8;
-    --entete-texte:#222;     
-    
-    --ligne1:#252a30;
-    --ligne2:#4a525d;
-    --survol:#308f5ff2;
-    
-    --border1: 1px solid #b9c6d2;
-    --border2: 2px solid #b9c6d2;
-    --border3: 3px solid #b9c6d2;
-    --border-groupe: 3px solid #b9c6d2;
-    
-    --ombre:0 2px 8px rgba(0,0,0,.12);  
-  }
-  
-  html, body {
-    width: 100%;
-    margin: 0;
-    padding: 5px;
-    box-sizing: border-box;
-    overflow: auto !important; /* Permet le défilement global de la page si le conteneur déborde*/
-    font-family:Segoe UI, Arial, Helvetica, sans-serif; 
-    /* Autorise tous les gestes natifs du navigateur (zoom + scroll) */
-    touch-action: manipulation !important; 
-    background:var(--bg-fond);
-    font-size: 13px;
-  }
-  
-  /* Figer le titre h1 en haut */
-  h1 {
-    background: var(--bg-fond); /* Fond pour éviter la transparence */        
-    position: sticky;
-    flex-shrink: 0;     /* Empêche les titres de se réduire si la fenêtre est petite */
-    margin: 0 0 6px 0; 
-    font-size: 1.5rem;
-    color:var(--texte1); 
-    z-index: 10;
-  }    
-  
-  h2 { margin: 0 0 12px 0; font-size: 1.1rem; color:var(--texte2); } 
-  
-  /* --- LE CONTENEUR AVEC EFFET MAISON (Pour le fun) */
-  .table-container {
-    width: 100%;
-    overflow: auto !important; /* Déclenche les défilements H/V */
-    padding-right: 15px; /* Évite que le contenu soit masqué par la barre de défilement verticale */
-    padding-bottom: 15px; /* Évite que le contenu soit masqué par la barre de défilement horizontale */
-    max-height: 75vh !important; /* Garde de l'espace sur mobile pour défiler la page globale */
-    flex-grow: 1;       /* Remplit tout l'espace vertical disponible */
-    margin-bottom: 15px !important; /* Marge externe sous le conteneur */
-    /* Active le défilement matériel fluide tactile */
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-x pan-y pinch-zoom !important; 
-    /* --- OPTIMISATION FLUIDITÉ / ACCÉLÉRATION MATÉRIELLE --- */
-    -webkit-overflow-scrolling: touch;
-    will-change: scroll-position; /* Prépare le navigateur au défilement */
-    transform: translateZ(0);     /* Force le rendu par la carte graphique (GPU) */   
-  }
-  
-  table { /* --- LA TABLE (Calcul de largeur strict) --- */
-    border-collapse: separate; /* Obligatoire pour éviter les bugs de borders sticky */
-    border-spacing: 0;
-    /* Correction des bordures extérieures pour le mode 'separate' */
-    border-top: var(--border1);
-    border-left: var(--border1);
-    border-right: var(--border-groupe);
-    /* INDISPENSABLE pour les colonnes variables : la table s'adapte à son contenu */
-    width: max-content !important; /* S'adapte automatiquement à la somme de toutes les colonnes */
-    min-width: 900px !important;
-    table-layout: auto !important; /* Permet l'autofit sur les colonnes variables */
-  }
-  
-  th, td {
-    box-sizing: border-box !important;
-    padding: 7px 10px;
-    border-right: var(--border1);
-    border-bottom: var(--border1);
-    white-space: nowrap; /* Empêche le texte de sauter à la ligne involontairement */
-    color: var(--texte3);
-    font-weight: 500;    
-  }
-  th.dynamic-col a {
-    color: var(--text-header-1);
-  }
-  
-  /* Ligne 1 */ 
-  .sticky-row-1 th {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    color: var(--text-header-1);
-    font-weight: 500;
-    
-  }
-  .sticky-row-1 th.sticky-parent {
-    left: 0;
-    z-index: 30;
-    background-color: var(--bg-header-1);    
-  }
+        --line1-height: 32px;
 
-  /* Ligne 2 */
-  .sticky-row-2 th {
-    position: sticky;
-    top: var(--line1-height);
-    z-index: 10;
-    background-color: var(--bg-header-2); 
-    color: var(--text-header-1);
-    font-weight: 500;
-  }
-  
-  /* CONFIGURATION STRICTE DES 3 PREMIÈRES COLONNES (En-tête et Corps) */
-  .col-1, tbody td:nth-child(1) {
-    position: sticky; left: 0;
-    background: fixed; /* Assure que le fond reste fixe lors du défilement */
-    width: var(--col1-width);
-    min-width: var(--col1-width);
-    max-width: var(--col1-width);
-  }
-  .col-2, tbody td:nth-child(2) {
-    position: sticky; left: 165px;
-    width: var(--col2-width);
-    min-width: var(--col2-width);
-    max-width: var(--col2-width);
-  }
-  
-  .col-3, tbody td:nth-child(3) {
-    position: sticky !important;
-    left: var(--col2-left) !important;
-    width: var(--col3-width);
-    min-width: var(--col3-width);
-    max-width: var(--col3-width);
-  } 
-  
-  /* Gestion fine des z-index pour éviter les superpositions bizarres */
-  .sticky-row-1 .col-1, .sticky-row-1 .col-2, .sticky-row-1 .col-3 { z-index: 30; background: var(--bg-header-1);color: var(--text-header-1); }
-  .sticky-row-2 .col-1, .sticky-row-2 .col-2, .sticky-row-2 .col-3 { z-index: 25; background: var(--bg-header-1);color: var(--text-header-1); }
-  tbody td:nth-child(1), tbody td:nth-child(2), tbody td:nth-child(3) { z-index: 5; background: var(--bg-header-1);color: var(--text-header-1); }
-  
-  /* Style des colonnes variables défilantes */
-  /* 2. Configurez l'Autofit dynamique sur les colonnes suivantes */
-  .dynamic-col, tbody td:not(:nth-child(-n+3)) {
-    width: max-content !important;  /* Force l'Autofit sur le texte le plus long */
-    /*min-width: 120px;              /* Sécurité : évite que la colonne soit trop étroite si la cellule est presque vide */
-    white-space: nowrap;            /* Empêche le texte de sauter à la ligne involontairement */
-    background-color: var(--bg-header-2);
-  }  
+        --bg-header-1: #1b13b0;
+        --bg-header-2: #254e75;
+
+        --text-header-1: #ffffff;
+
+        --col1-width: 165px;
+        --col2-width: 65px;
+        --col3-width: 50px;
+
+        --col2-left: 230px;  /* Égal à --col1-width */ 
+
+        --bg-fond: darkslategray;
+        --bg-fond1: #1b13b0;
+        --bg-fond2: #ff8000;
+        --bg-fond3: #88ea88;
+
+        --texte1: #f5c60aed;
+        --texte2: #d7c98d;
+        --texte3: #f3cece;
+        --texte4: yellow;
+        --texte5: #b7ff00;
+        --texte6: #351c1c;
+        --texte7: var(--bg-header-1);
+
+        --lien: #42a9ed;
+        --lien1: #a8d6f5;
+        --lien2: #453cf4;
+
+        --titre: #0b4f8a;
+
+        --table: #ffffff;
+        --entete: #d8eaf8;
+        --entete-texte: #222;
+
+        --ligne1: #252a30;
+        --ligne2: #4a525d;
+        --survol: #308f5ff2;
+
+        --border1: 1px solid #b9c6d2;
+        --border2: 2px solid #b9c6d2;
+        --border3: 3px solid #b9c6d2;
+
+        --border-groupe: 3px solid #b9c6d2;
+
+        --ombre: 0 2px 8px rgba(0,0,0,.12);
+    }
+    .rouge { color: red; }
     
-/* ---  ALTERNANCE DE COULEUR (À partir de la 4ème colonne) --- */
-/* Lignes impaires */
-  tbody tr:nth-child(odd) td:not(:nth-child(-n+3)) {
-    background: var(--ligne1);
-  }
-  
-  /* Lignes paires */
-  tbody tr:nth-child(even) td:not(:nth-child(-n+3)) {
-    background: var(--ligne2);
-  }
-  
-  /* --- CENTRER CELLULES Applique le centrage sur les colonnes 5, 7 et 8 dans le corps du tableau */
-  tbody td:nth-child(5),tbody td:nth-child(6), tbody td:nth-child(7), tbody td:nth-child(8), 
-  tbody td:nth-child(10), tbody td:nth-child(11), tbody td:nth-child(12), tbody td:nth-child(13), 
-  tbody td:nth-child(15), tbody td:nth-child(16), tbody td:nth-child(17), tbody td:nth-child(18),
-  tbody td:nth-child(20), tbody td:nth-child(21), tbody td:nth-child(22), tbody td:nth-child(23),
-  tbody td:nth-child(25), tbody td:nth-child(26), tbody td:nth-child(27), tbody td:nth-child(28),
-  tbody td:nth-child(30), tbody td:nth-child(31), tbody td:nth-child(32), tbody td:nth-child(33),
-  tbody td:nth-child(35), tbody td:nth-child(36), tbody td:nth-child(37), tbody td:nth-child(38),
-  tbody td:nth-child(40), tbody td:nth-child(41), tbody td:nth-child(42), tbody td:nth-child(43),
-  tbody td:nth-child(45), tbody td:nth-child(46), tbody td:nth-child(47), tbody td:nth-child(48)
-  {
-    text-align: center;
-  }
+    .vert { color: green; }  
+    
+    .orange { color: orange; }
+    
+    .bleu { color: blue; }   
+    /* =========================================================
+        HTML / BODY
+    ========================================================= */
+    html,
+    body {
+        width: 100%;
+        margin: 0;
+        padding: 5px;
+        box-sizing: border-box;
+        overflow: auto !important; /* Permet le défilement global de la page si le conteneur déborde*/
+        font-family: Segoe UI, Arial, Helvetica, sans-serif;
+        touch-action: manipulation !important; /* Autorise tous les gestes natifs du navigateur (zoom + scroll) */
+        background: var(--bg-fond);
+        font-size: 13px;
+    }
 
-  /* --- EFFET DE SURVOL (HOVER) --- */
-  tbody tr:hover td:not(:nth-child(-n+3)) { 
-    background-color: var(--survol) !important;
-    color: var(--texte4);
-    transition: background-color 0.15s ease;
-    cursor: pointer;
-  }
+    /* =========================================================
+        TITRES
+    ========================================================= */
+    h1 {
+        background: var(--bg-fond); /* Fond pour éviter la transparence */
+        position: sticky;
+        flex-shrink: 0; /* Empêche les titres de se réduire si la fenêtre est petite */
+        margin: 0 0 6px 0;
+        font-size: 1.5rem;
+        color: var(--texte1);
+        z-index: 10;
+    }
 
-  /* --- STYLISATION DES COLONNES DE CHOIX --- */
-  /* En ciblant directement les "td" qui ont la classe "col-choix" à l'intérieur du "tbody",
-   le navigateur donne la priorité absolue à cette couleur, qu'il s'agisse d'une ligne paire ou impaire */
-  tbody td.col-choix {
-    color: var(--texte5) !important; /* Votre couleur de choix (ex: jaune, bleu, etc.) */
-    font-weight: 600 !important; 
-  }
-  /* --- FOND NEUTRE POUR LES GROUPES VIDES --- */
-  /* Si un groupe de 5 cellules est totalement vide, on applique un fond neutre (ex: gris très foncé ou transparent) */
-  .groupe-vide {
-    background-color: var(--bg-fond1) !important; /* Couleur neutre qui se fond dans votre arrière-plan 'darkslategray' */
-    opacity: 0.6; /* Optionnel : estompe légèrement la zone */
-  }
-  /* --- ADAPTATION ORDINATEUR (ECRANS DE PC) --- */
+    h2 {
+        margin: 0 0 12px 0;
+        font-size: 1.1rem;
+        color: var(--texte2);
+    }
+
+    /* Alignement horizontal de l'icône et des titres */
+    .header-container {
+        display: flex;
+        align-items: center; /* Aligne verticalement l'icône et le texte au centre */
+        gap: 15px;           /* Crée un espace de 15px entre l'icône et les titres */
+        padding: 10px;       /* Optionnel : ajoute un peu d'espace autour du bloc */
+    }
+
+    /* Optionnel : Remise à zéro des marges des titres pour éviter les décalages */
+    .titles-block h1, 
+    .titles-block h2 {
+        margin: 0;
+    }
+
+    /* Optionnel : Un petit espace sous le H1 si vous le souhaitez */
+    .titles-block h1 {
+        margin-bottom: 4px;
+    }
+
+    /* =========================================================
+        CONTENEUR DU TABLEAU
+    ========================================================= */
+    .table-container {
+        width: 100%;
+        overflow: auto !important; /* Déclenche les défilements H/V */
+        padding-right: 15px; /* Espace entre le tableau et la barre de défilement droite */
+        padding-bottom: 15px; /* Espace entre le tableau et la barre de défilement bas */
+        max-height: 75vh !important; /* Garde de l'espace sur mobile pour défiler la page globale */
+        flex-grow: 1;  /* Remplit tout l'espace vertical disponible */
+        margin-bottom: 15px !important; /* Marge externe sous le conteneur */
+        /* --- OPTIMISATION FLUIDITÉ / ACCÉLÉRATION MATÉRIELLE --- */
+        -webkit-overflow-scrolling: touch; /* Active le défilement matériel fluide tactile */
+        touch-action: pan-x pan-y pinch-zoom !important;
+        will-change: scroll-position; /* Prépare le navigateur au défilement */
+        transform: translateZ(0); /* Force le rendu par la carte graphique (GPU) */ 
+    }
+
+    /* =========================================================
+        TABLE (Calcul de largeur strict) ---
+    ========================================================= */
+    table {
+        border-collapse: separate; /* Obligatoire pour éviter les bugs de borders sticky */
+        border-spacing: 0;
+        /* Correction des bordures extérieures pour le mode 'separate' */
+        border-top: var(--border1);
+        border-left: var(--border1);
+        border-right: var(--border-groupe);
+        /* INDISPENSABLE pour les colonnes variables : la table s'adapte à son contenu */
+        width: max-content !important;
+        min-width: 900px !important;
+        table-layout: auto !important; /* Permet l'autofit sur les colonnes variables */
+    }
+
+    th,
+    td {
+        box-sizing: border-box !important;
+        padding: 7px 10px;
+        border-right: var(--border1);
+        border-bottom: var(--border1);
+        white-space: nowrap; /* Empêche le texte de sauter à la ligne involontairement */
+        color: var(--texte3);
+        font-weight: 500;
+    }
+
+    th.dynamic-col a {
+        color: var(--text-header-1);
+    }
+
+    /* =========================================================
+        LIGNE 1
+    ========================================================= */
+    .sticky-row-1 th {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        color: var(--text-header-1);
+        font-weight: 500;
+        border-top: var(--border2);
+        background-color: var(--bg-header-1);
+    }
+
+    .sticky-row-1 th.sticky-parent {
+        left: 0;
+        z-index: 30;
+        background-color: var(--bg-header-1);
+    }
+
+    /* =========================================================
+        LIGNE 2
+    ========================================================= */
+    .sticky-row-2 th {
+        position: sticky;
+        top: var(--line1-height);
+        z-index: 15;
+        background-color: var(--bg-header-2);
+        color: var(--text-header-1);
+        font-weight: 500;
+    }
+
+    /* =========================================================
+        3 PREMIÈRES COLONNES FIXES
+    ========================================================= */
+    .col-1,
+    tbody td:nth-child(1) {
+        position: sticky;
+        left: 0;
+        background: fixed; /* Assure que le fond reste fixe lors du défilement */
+        width: var(--col1-width);
+        min-width: var(--col1-width);
+        max-width: var(--col1-width);
+    }
+
+
+    .col-2,
+    tbody td:nth-child(2) {
+        position: sticky;
+        left: 165px;
+        width: var(--col2-width);
+        min-width: var(--col2-width);
+        max-width: var(--col2-width);
+    }
+
+    .col-3,
+    tbody td:nth-child(3) {
+        position: sticky !important;
+        left: var(--col2-left) !important;
+        width: var(--col3-width);
+        min-width: var(--col3-width);
+        max-width: var(--col3-width);
+    }
+
+    /* =========================================================
+        Z-INDEX DES COLONNES FIXES
+    ========================================================= */
+    .sticky-row-1 .col-1,
+    .sticky-row-1 .col-2,
+    .sticky-row-1 .col-3 {
+        z-index: 30;
+        background: var(--bg-header-1);
+        color: var(--text-header-1);
+    }
+
+    .sticky-row-2 .col-1,
+    .sticky-row-2 .col-2,
+    .sticky-row-2 .col-3 {
+        z-index: 25;
+        background: var(--bg-header-1);
+        color: var(--text-header-1);
+    }
+
+
+    tbody td:nth-child(1),
+    tbody td:nth-child(2),
+    tbody td:nth-child(3) {
+        z-index: 5;
+        background: var(--bg-header-1);
+        color: var(--text-header-1);
+    }
+
+    /* =========================================================
+        COLONNES VARIABLES
+    ========================================================= */
+    .dynamic-col,
+    tbody td:not(:nth-child(-n+3)) {
+        width: max-content !important; /* Force l'Autofit sur le texte le plus long */
+        white-space: nowrap; /* Empêche le texte de sauter à la ligne involontairement */
+        background-color: var(--bg-header-2);
+    }
+
+    /* =========================================================
+        ALTERNANCE DES LIGNES
+    ========================================================= */
+    tbody tr:nth-child(odd) td:not(:nth-child(-n+3)) { /* Lignes impaires */
+        background: var(--ligne1);
+    }
+
+    tbody tr:nth-child(even) td:not(:nth-child(-n+3)) { /* Lignes paires */
+        background: var(--ligne2);
+    }
+
+    /* =========================================================
+        CENTRAGE DES CELLULES
+    ========================================================= */
+    tbody td:nth-child(5),
+    tbody td:nth-child(6),
+    tbody td:nth-child(7),
+    tbody td:nth-child(8),
+
+    tbody td:nth-child(10),
+    tbody td:nth-child(11),
+    tbody td:nth-child(12),
+    tbody td:nth-child(13),
+
+    tbody td:nth-child(15),
+    tbody td:nth-child(16),
+    tbody td:nth-child(17),
+    tbody td:nth-child(18),
+
+    tbody td:nth-child(20),
+    tbody td:nth-child(21),
+    tbody td:nth-child(22),
+    tbody td:nth-child(23),
+
+    tbody td:nth-child(25),
+    tbody td:nth-child(26),
+    tbody td:nth-child(27),
+    tbody td:nth-child(28),
+
+    tbody td:nth-child(30),
+    tbody td:nth-child(31),
+    tbody td:nth-child(32),
+    tbody td:nth-child(33),
+
+    tbody td:nth-child(35),
+    tbody td:nth-child(36),
+    tbody td:nth-child(37),
+    tbody td:nth-child(38),
+
+    tbody td:nth-child(40),
+    tbody td:nth-child(41),
+    tbody td:nth-child(42),
+    tbody td:nth-child(43),
+
+    tbody td:nth-child(45),
+    tbody td:nth-child(46),
+    tbody td:nth-child(47),
+    tbody td:nth-child(48) {
+        text-align: center;
+    }
+
+    /* =========================================================
+        SURVOL (HOVER) ---
+    ========================================================= */
+    tbody tr:hover td:not(:nth-child(-n+3)) {
+        background-color: var(--survol) !important;
+        color: var(--texte4);
+        transition: background-color 0.15s ease;
+        cursor: pointer;
+    }
+
+    /* =========================================================
+        COLONNES DE CHOIX
+    ========================================================= */
+    /* En ciblant directement les "td" qui ont la classe "col-choix" à l'intérieur du "tbody",
+       le navigateur donne la priorité absolue à cette couleur, qu'il s'agisse d'une ligne paire ou impaire */    
+    tbody td.col-choix {
+        color: var(--texte5) !important;
+        font-weight: 600 !important;
+    }
+
+    /* =========================================================
+        GROUPES VIDES
+    ========================================================= */
+    .groupe-vide {
+        background-color: var(--bg-fond1) !important;
+        opacity: 0.6; /* Optionnel : estompe légèrement la zone */
+    }
+
+    /* =========================================================
+        BORDURES DES GROUPES
+    ========================================================= */
+    thead tr:nth-child(1) th {
+        border-top: var(--border2);
+    }
+
+    thead tr:nth-child(1) th:nth-child(2) {
+        border-left: var(--border2) !important;
+        border-right: var(--border3) !important;
+    }
+
+    thead tr:nth-child(1) th:nth-child(3) {
+        border-right: var(--border3) !important;
+    }
+
+    thead tr:nth-child(2) th:nth-child(4),
+    tbody tr td:nth-child(4) {
+        border-left: var(--border3) !important;
+    }
+
+    thead tr:nth-child(2) th:nth-child(8),
+    tbody tr td:nth-child(8),
+
+    thead tr:nth-child(2) th:nth-child(13),
+    tbody tr td:nth-child(13),
+
+    thead tr:nth-child(2) th:nth-child(18),
+    tbody tr td:nth-child(18),
+
+    thead tr:nth-child(2) th:nth-child(23),
+    tbody tr td:nth-child(23),
+
+    thead tr:nth-child(2) th:nth-child(28),
+    tbody tr td:nth-child(28),
+
+    thead tr:nth-child(2) th:nth-child(33),
+    tbody tr td:nth-child(33),
+
+    thead tr:nth-child(2) th:nth-child(38),
+    tbody tr td:nth-child(38),
+
+    thead tr:nth-child(2) th:nth-child(43),
+    tbody tr td:nth-child(43),
+
+    thead tr:nth-child(2) th:nth-child(48),
+    tbody tr td:nth-child(48),
+
+    thead tr:nth-child(2) th:nth-child(53),
+    tbody tr td:nth-child(53),
+
+    thead tr:nth-child(2) th:nth-child(58),
+    tbody tr td:nth-child(58),
+
+    thead tr:nth-child(2) th:nth-child(63),
+    tbody tr td:nth-child(63),
+
+    thead tr:nth-child(2) th:nth-child(68),
+    tbody tr td:nth-child(68),
+
+    thead tr:nth-child(2) th:nth-child(73),
+    tbody tr td:nth-child(73),
+
+    thead tr:nth-child(2) th:nth-child(78),
+    tbody tr td:nth-child(78),
+
+    thead tr:nth-child(2) th:nth-child(83),
+    tbody tr td:nth-child(83),
+
+    thead tr:nth-child(2) th:nth-child(88),
+    tbody tr td:nth-child(88),
+
+    thead tr:nth-child(2) th:nth-child(93),
+    tbody tr td:nth-child(93),
+
+    thead tr:nth-child(2) th:nth-child(98),
+    tbody tr td:nth-child(98) {
+        border-right: var(--border3) !important;
+    }
+
+    /* =========================================================
+        LIENS DU TABLEAU
+    ========================================================= */
+    thead tr:nth-child(1) a {
+        display: inline-block;
+        width: auto; /* Permet de survoler toute la cellule si le texte est long */
+    }
+
+    table td a,
+    table th a:hover {
+        color: var(--texte6);
+        background-color: var(--bg-fond3); /* Devient un peu plus clair au survol */
+        text-decoration: underline;
+    }
+
+    .lien {
+        text-decoration: none;
+        padding: 3px 5px; /* Optionnel : ajoute un espace autour du texte */
+        transition: background-color 0.2s ease; /* Optionnel : rend l'apparition fluide */
+        color: var(--lien1) !important;
+    }
+
+    .lien:hover {
+        background-color: var(--bg-fond3);
+        text-decoration: underline;
+        color: var(--texte7) !important;
+    }
+
+    /* =========================================================
+        BOUTON INFO ⓘ
+    ========================================================= */
+    .info-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 23px;
+        height: 23px;
+        margin-left: 8px;
+        padding: 0;
+        border: 1px solid rgba(255,255,255,0.65);
+        border-radius: 50%;
+        background: rgba(245, 103, 8, 0.948);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 1;
+        cursor: pointer;
+        vertical-align: middle;
+        transition: all 0.15s ease;
+    }
+
+    .info-btn:hover {
+        background: rgb(182, 231, 84);
+        color: rgb(211, 19, 19);
+        transform: scale(1.08);
+    }
+
+    .info-btn:active {
+        transform: scale(0.95);
+    }
+
+    /* =========================================================
+        FENÊTRE MODALE
+     ========================================================= */
+    .info-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(0,0,0,0.65);
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .info-modal-content {
+        position: relative;
+        width: min(650px, 95vw);
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 22px;
+        background: var(--table);
+        color: var(--entete-texte);
+        border: 2px solid var(--bg-header-1);
+        border-radius: 10px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .info-modal-title { 
+        margin: 0 35px 15px 0;
+        color: var(--titre);
+        font-size: 1.4rem;
+        font-weight: 625;
+    }
+
+    .info-modal-text {
+        margin-bottom: 12px;
+    }
+
+    .info-modal-content a {
+        color: var(--lien2);
+        font-weight: 600;
+    }
+
+    .info-modal-content a:hover {
+        color: var(--titre);
+        background-color: var(--bg-fond3);
+        transition: background-color 0.15s ease;
+        text-decoration: underline;
+    }
+    
+    /* Bouton X */
+    .info-modal-close {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: #666;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .info-modal-close:hover {
+        background: #ddd;
+        color: #111;
+    }
+
+    /* Bouton Fermer */
+    .info-modal-footer {
+        margin-top: 20px;
+        text-align: right;
+    }
+
+    .info-modal-footer button {
+        padding: 7px 16px;
+        border: none;
+        border-radius: 5px;
+        background: var(--bg-header-1);
+        color: white;
+        cursor: pointer;
+    }
+
+    .info-modal-footer button:hover {
+        opacity: 0.85;
+    }
+
+    /* =========================================================
+        PC ADAPTATION ORDINATEUR (ECRANS DE PC) ---
+    ========================================================= */
     @media screen and (min-width: 769px) {
-  html, body {
-    height: 100vh;
-    overflow: hidden; /* Supprime l'ascenseur de la page web globale sur PC */
-    display: flex;
-    flex-direction: column;
-    }
-  .table-container {
-    flex-grow: 1;
-    max-height: none; /* Le tableau prend tout le reste de l'écran */
-    }
-  }
-    @page {
-      size: landscape;
-    width: 100%;
-    }
-    @media screen and (orientation: portrait) {
-      #toolbar {
-    width: 100%;
-  }      
-    }
-    @media screen and (orientation: landscape) {
-      #toolbar{
-        min-height: 100%;
-    width: 100%;
-  }  
-    }
-/* --- ADAPTATION SMARTPHONE EN MODE PAYSAGE --- */
-  @media screen and (max-height: 500px) and (orientation: landscape) {
-  
-  .table-container {
-    /* On réduit la hauteur max pour laisser respirer le bas de la page */
-    max-height: 65vh !important; 
-    margin-bottom: 15px !important; /* Marge externe sous le conteneur */
+        html,
+        body {
+            height: 100vh;
+            overflow: hidden; /* Supprime l'ascenseur de la page web globale sur PC */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-container {
+            flex-grow: 1;
+            max-height: none; /* Le tableau prend tout le reste de l'écran */
+        }
     }
 
-  /* Espace d'aisance supplémentaire en bas du body pour le défilement global */
-  body {
-    padding-bottom: 20px !important;
+    /* =========================================================
+        SMARTPHONE PAYSAGE
+    ========================================================= */
+    @media screen and (max-height: 500px)
+        and (orientation: landscape) {
+        .table-container {
+        /* On réduit la hauteur max pour laisser respirer le bas de la page */    
+            max-height: 65vh !important;
+            margin-bottom: 15px !important; /* Marge externe sous le conteneur */
+        }
+
+        body { /* Espace d'aisance supplémentaire en bas du body pour le défilement global */
+            padding-bottom: 20px !important;
+        }
     }
-  }  
 
-   /* 1. Encadrement du titre Ligne 1 (colspan="5") */
-  /* Si c'est le 3ème <th> de la ligne 1 */
-thead tr:nth-child(1) th {
-  border-top: var(--border2);
-}    
-thead tr:nth-child(1) th:nth-child(2) {
-  border-left: var(--border2) !important;
-  border-right: var(--border3) !important;
-}
-thead tr:nth-child(1) th:nth-child(3) {
-  border-right: var(--border3) !important;
-}
+    /* =========================================================
+        SMARTPHONE
+      ========================================================= */
+    @media screen and (max-width: 600px) {
+        .info-modal {
+            padding: 10px;
+        }
 
+        .info-modal-content {
+            width: 96vw;
+            max-height: 90vh;
+            padding: 18px;
+        }
 
-/* 2. Bordure GAUCHE du groupe (Colonne 4) */
-thead tr:nth-child(2) th:nth-child(4),
-tbody tr td:nth-child(4) {
-  border-left: var(--border3) !important;
-}
+        .info-modal-title {
+            font-size: 1.15rem;
+        }
+    }
 
-/* 3. Bordure DROITE du groupe (Colonne 8) */
-thead tr:nth-child(2) th:nth-child(8),
-tbody tr td:nth-child(8) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 13) */
-thead tr:nth-child(2) th:nth-child(13),
-tbody tr td:nth-child(13) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 18) */
-thead tr:nth-child(1) th:nth-child(4),
-thead tr:nth-child(2) th:nth-child(18),
-tbody tr td:nth-child(18) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 23) */
-thead tr:nth-child(1) th:nth-child(5),
-thead tr:nth-child(2) th:nth-child(23),
-tbody tr td:nth-child(23) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 28) */
-thead tr:nth-child(1) th:nth-child(6),
-thead tr:nth-child(2) th:nth-child(28),
-tbody tr td:nth-child(28) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 33) */
-thead tr:nth-child(1) th:nth-child(7),
-thead tr:nth-child(2) th:nth-child(33),
-tbody tr td:nth-child(33) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 38) */
-thead tr:nth-child(1) th:nth-child(8),
-thead tr:nth-child(2) th:nth-child(38),
-tbody tr td:nth-child(38) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 43) */
-thead tr:nth-child(1) th:nth-child(9),
-thead tr:nth-child(2) th:nth-child(43),
-tbody tr td:nth-child(43) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 48) */
-thead tr:nth-child(1) th:nth-child(10),
-thead tr:nth-child(2) th:nth-child(48),
-tbody tr td:nth-child(48) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 53) */
-thead tr:nth-child(1) th:nth-child(11),
-thead tr:nth-child(2) th:nth-child(53),
-tbody tr td:nth-child(53) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 58) */
-thead tr:nth-child(1) th:nth-child(12),
-thead tr:nth-child(2) th:nth-child(58),
-tbody tr td:nth-child(58) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 63) */
-thead tr:nth-child(1) th:nth-child(13),
-thead tr:nth-child(2) th:nth-child(63),
-tbody tr td:nth-child(63) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 68) */
-thead tr:nth-child(1) th:nth-child(14),
-thead tr:nth-child(2) th:nth-child(68),
-tbody tr td:nth-child(68) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 73) */
-thead tr:nth-child(1) th:nth-child(15),
-thead tr:nth-child(2) th:nth-child(73),
-tbody tr td:nth-child(73) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 78) */
-thead tr:nth-child(1) th:nth-child(16),
-thead tr:nth-child(2) th:nth-child(78),
-tbody tr td:nth-child(78) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 83) */
-thead tr:nth-child(1) th:nth-child(17),
-thead tr:nth-child(2) th:nth-child(83),
-tbody tr td:nth-child(83) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 88) */
-thead tr:nth-child(1) th:nth-child(18),
-thead tr:nth-child(2) th:nth-child(88),
-tbody tr td:nth-child(88) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 93) */
-thead tr:nth-child(1) th:nth-child(19),
-thead tr:nth-child(2) th:nth-child(93),
-tbody tr td:nth-child(93) {
-  border-right: var(--border3) !important;
-}
-/* Bordure DROITE (Colonne 98) */
-thead tr:nth-child(1) th:nth-child(20),
-thead tr:nth-child(2) th:nth-child(98),
-tbody tr td:nth-child(98) {
-  border-right: var(--border3) !important;
-}
+    /* =========================================================
+        TOTALISATEUR
+      ========================================================= */
+    .ligne-totaux td {
+        font-weight: 700;
+        text-align: center;
+        border-top: var(--border1,) !important;
+        background: var(--fond-entete,);
+    }
 
-/* --- EFFET AU SURVOL DES LIENS (Dans le corps du tableau) --- */
-/* 1. Style de base des liens pour qu'ils soient bien visibles */
-thead tr:nth-child(1) a {
-  /* color: var(--lien); */
-  /*background-color: var(--texte3);  Utilise votre variable de couleur de lien actuelle */
-  /*text-decoration: none;  Supprime le soulignement par défaut pour un look plus moderne */
-  display: inline-block;
-  width:auto; /* Permet de survoler toute la cellule si le texte est long */
-}
-
-/* 2. Changement de fond de la cellule entière quand on survole le lien */
-table td a, table th a:has(a):hover {
-  background-color: var(--texte4) !important; /* Applique un fond bleu très léger (adapté à votre variable --lien) */
-  transition: background-color 0.2s ease; /* Rend la transition fluide */
-}
-
-/* 3. Optionnel : Souligner légèrement le texte du lien au survol pour accentuer l'effet */
-table td a, table th a:hover {
-  color: var(--texte6);
-  background-color: var(--bg-fond3); /* Devient un peu plus clair au survol */
-  text-decoration: underline; 
-}
+    .separateur-inscriptions {
+        margin: 1.25rem 0 0.5rem;
+        padding: 0.6rem 0.75rem;
+        border-top: 2px solid currentColor;
+        font-size: 1.05rem;
+    }
+    .mon-icone {
+        /* Définissez la taille de votre choix ici */
+        width: 50px; 
+        height: 50px;        
+        /* Optionnel : garantit que le ratio carré (1:1) reste parfait */
+        aspect-ratio: 1 / 1;    
+    }
 </style>
 </head>
 <body>
+<div id="body">
+
+    <!-- =====================================================
+        TITRE
+    ========================================================== -->
+    <header class="header-container">
+    <!-- Votre icône SVG -->
+    <svg class="mon-icone" width="100%" height="100%" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- vector-effect ajouté pour garder des bordures proportionnelles -->
+        <rect x="10" y="10" width="180" height="180" fill="#f3f1e9" stroke="#453cf4" stroke-width="2" />
+        <rect x="25" y="25" width="150" height="150" fill="none" stroke="#453cf4" stroke-width="14"  />
+        <polygon points="25,175 25,28 170,175" fill="#453cf4"/>
+        <g fill="#453cf4">
+        <text x="66" y="65" font-family="'Fancy', 'Helvetica Neue', Arial, sans-serif" font-weight="1000" font-size="25" letter-spacing="0">ƳᑕÔᑎᗴ</text>      
+        <text x="98" y="90" font-family="'Fancy', 'Helvetica Neue', Arial, sans-serif" font-weight="800" font-size="16" letter-spacing="-1">Sens</text>
+        </g> 
+    </svg>
+    <!-- Le bloc contenant vos titres -->
+    <div class="titles-block">    
     <h1>Historique des Résultats YCÔNE - AOÛT 2026  &#8195;</h1>
-  
+
     <h2><!---->du 16/08/2026 au 31/08/2026&#8195&#8195&#8195&#8195&#8195&#8195 Lien : 
-      <a style="color:var(--lien);" href="https://erikpier2.github.io/ycone_2026/" target="_blank"><i>HISTORIQUE</i></a>  
+        <a style="color:var(--lien);" href="https://erikpier2.github.io/ycone_2026/" target="_blank"><i>HISTORIQUE</i></a>  
     
     </h2>
-<div id="loading">Chargement des données...</div>      
-      <!-- C'est cette div qui portera vos barres de défilement et vos limites de hauteur -->
-<div id="excel-table-container" class="table-container"></div>  
-<!-- Moteur d'analyse ultra-léger et autonome intégré directement dans la page -->
-<script>
+    </div>
+    </header>
+    <div id="loading">Chargement des données...</div>      
+    <!-- C'est cette div qui portera vos barres de défilement et vos limites de hauteur -->
+    <div id="excel-table-container" class="table-container"></div>  
+    <!-- Moteur d'analyse ultra-léger et autonome intégré directement dans la page -->
+    <script>
+        // Date du jour
+        const aujourdHui = new Date();
+
+        // Format yyyy-mm-dd en heure locale
+        const annee = aujourdHui.getFullYear();
+        const mois = String(aujourdHui.getMonth() + 1).padStart(2, '0');
+        const jour = String(aujourdHui.getDate()).padStart(2, '0');
+        const dateDebut = `${annee}-${mois}-${jour}`;
+
+        // Dernier jour de l'année suivante
+        const dateFin = `${annee + 1}-12-31`;
+
+        // Construction du lien
+        const url = 
+        `https://api.ffcorientation.fr/iframe/agenda/liste/?du=${dateDebut}&au=${dateFin}&types=cou&page=1`;
+
+        document.getElementById('lienAgenda').href = url;
+        console.log("Clic détecté sur la balise d'orientation");
+    </script>     
+    <script>
     const csvFileUrl = 'aout2026.csv';
 
         // 1. VOTRE DICTIONNAIRE DE LIENS (Modifiez les textes et les URL ici)
@@ -694,9 +982,9 @@ table td a, table th a:hover {
               }
 
               window.onload = loadCsvTable;
-</script>
-</div>
-</div>  
-<p style=" color :#e0dada ">Tableau mis à jour le 30/09/2026 08:35</p>
+    </script>
+    </div>
+    </div>  
+    <p style=" color :#e0dada ">Tableau mis à jour le 30/09/2026 08:35</p>
 </body>
 </html>
