@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <title>Résultats YCÔNE  </title>
+<!-- chatgpt 03/10/2026 19:37 -->
+<head>
+    <title>Résultats YCÔNE  août 2026</title>
     <meta charset="UTF-8">
- <meta charset="UTF-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.6, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" /> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.6, maximum-scale=3.0, user-scalable=yes, viewport-fit=cover" />    
-    <meta name="author" content="erikpier"> 
-  
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,
+                minimum-scale=0.6, maximum-scale=3.0,
+                user-scalable=yes, viewport-fit=cover">
+
+    <meta name="author" content="erikpier">
+
 <style>
     /* =========================================================
         CONFIGURATION GÉNÉRALE
@@ -682,7 +685,8 @@
     }
 </style>
 </head>
-<body>
+
+<body> 
 <div id="body">
 
     <!-- =====================================================
@@ -702,18 +706,84 @@
     </svg>
     <!-- Le bloc contenant vos titres -->
     <div class="titles-block">    
-    <h1>Historique des Résultats YCÔNE - AOÛT 2026  &#8195;</h1>
+    <h1>
+        Historique des Résultats YCÔNE - AOUT 2026  &#8195;
+    </h1>
 
-    <h2><!---->du 16/08/2026 au 31/08/2026&#8195&#8195&#8195&#8195&#8195&#8195 Lien : 
-        <a style="color:var(--lien);" href="https://erikpier2.github.io/ycone_2026/" target="_blank"><i>HISTORIQUE</i></a>  
-    
+    <!-- =====================================================
+        LIENS
+        ===================================================== -->
+    <h2>
+        &#8195;&#8195;&#8195;&#8195;&#8195;
+        Lien :
+        <a class="lien"
+            href="https://erikpier2.github.io/ycone_2026/"
+            target="_blank">
+            <i>HISTORIQUE</i>
+        </a>
+        <span>
+            &#8195;&#8195;&#8195;&#8195;&#8195;&#8195;
+        </span>
+        Calendrier de la Ligue :
+        <a class="lien"
+            href="https://docs.google.com/spreadsheets/d/1httJl1hiOHUBR7Vo0rlS1slkQXeuAh_5/edit?gid=91997828#gid=91997828"
+            target="_blank">
+            <i>LBFCO</i>
+        </a>
     </h2>
     </div>
     </header>
-    <div id="loading">Chargement des données...</div>      
-    <!-- C'est cette div qui portera vos barres de défilement et vos limites de hauteur -->
-    <div id="excel-table-container" class="table-container"></div>  
-    <!-- Moteur d'analyse ultra-léger et autonome intégré directement dans la page -->
+    <!-- =====================================================
+        CHARGEMENT
+    ======================================================= -->
+    <div id="loading">
+        ...
+    </div>
+
+    <!-- =====================================================
+        TABLEAU
+    ========================================================== -->
+    <div id="excel-table-container"
+        class="table-container">
+    </div>
+
+    <!-- =====================================================
+        FENÊTRE D'INFORMATIONS
+        ===================================================== -->
+    <div id="info-modal"
+        class="info-modal">
+        <div class="info-modal-content">
+            <button
+                type="button"
+                class="info-modal-close"
+                aria-label="Fermer">
+                ×
+            </button>
+
+            <h3 id="info-modal-title"
+                class="info-modal-title">
+            </h3>
+
+            <div id="info-modal-body">
+            </div>
+
+            <div class="info-modal-footer">
+
+                <button
+                    type="button"
+                    id="info-modal-close-btn">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- =====================================================
+        JAVASCRIPT
+        ===================================================== -->
     <script>
         // Date du jour
         const aujourdHui = new Date();
@@ -733,258 +803,980 @@
 
         document.getElementById('lienAgenda').href = url;
         console.log("Clic détecté sur la balise d'orientation");
-    </script>     
+    </script>    
     <script>
-    const csvFileUrl = 'aout2026.csv';
+    /* =========================================================
+        FICHIERS
+      ========================================================= */
+    const csvFileUrl = 'donnees.csv';
+    const infoFileUrl = 'infos.json';
 
-        // 1. VOTRE DICTIONNAIRE DE LIENS (Modifiez les textes et les URL ici)
+    let infosGroupes = {};
+
+    /* =========================================================
+        DICTIONNAIRE DES LIENS DU TABLEAU
+      ========================================================= */
     const liensPersonnalises = {
-        "": "",
-        "": "",        
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-        "": "",
-          };
+        "":"",
+        "1.Rés.": "",      
+        "1.Pl.": "",
 
+        "":"",
+        "2.Hor.":"",
+        "2.Rés.": "",
+        "2.Pl.":"",
+        "2.écart":"",
+
+        "":"",
+        "3.Hor.":"",
+        "3.Rés.": "",
+        "3.Pl.":"",
+        "3.écart":"",
+
+        "":"",
+        "4.Rés.": "",
+        "4.Pl.": "",
+
+        "":"",
+        "5.Hor.":"",
+        "5.Rés.": "",
+        "5.Pl.": "",
+
+        "":"",
+        "6.Rés.": "",
+        "6.Pl.": "",
+
+        "":"",
+        "7.Circ.": "",
+        "7.Hor.": "",
+        "7.Rés.": "",
+        "7.écart": "",
+
+        "8.Circ.": "",
+        "8.Hor.": "",
+        "8.écart": "",
+
+        "9.Circ.": "",
+        "9.Hor.": "",
+        "9.écart": "",
+    };
+
+    /* =========================================================
+        CHARGEMENT DU CSV
+      ========================================================= */
     async function loadCsvTable() {
         try {
-            const response = await fetch(csvFileUrl);
-            if (!response.ok) throw new Error("Le fichier 'aout2026.csv' est introuvable.");
-            
-            // 1. Lecture binaire forcée en Windows-1252 pour corriger les accents é, à, ç
-            const buffer = await response.arrayBuffer();
-            const decoder = new TextDecoder('windows-1252'); // Force la lecture des é, à, ç corrects
-            const textData = decoder.decode(buffer);
-            
-            const lines = textData.split(/\r?\n/);
-            if (lines.length === 0) throw new Error("Le fichier CSV est vide.");
+            /* =================================================
+                CHARGEMENT DE INFOS.JSON
+            ================================================= */
+            try {
+                const infoResponse =
+                    await fetch(infoFileUrl);
 
-            // 1.2. Détection des colonnes sans données
-            // On stocke les index des colonnes qui contiennent au moins une cellule non vide
-            const colonnesAvecDonnees = new Set();   
-            lines.forEach((line, rowIndex) => {
-                if (line.trim() === "" || /^;+$/.test(line.trim())) return; 
-                // On n'analyse que les lignes de données (à partir de la 3ème ligne, index >= 2) 
-                if (rowIndex >= 2) {              
-                    const cells = line.split(';');
-                    cells.forEach((cellValue, colIndex) => {
-                        if (cellValue.trim() !== "") {
-                            colonnesAvecDonnees.add(colIndex); // On marque cette colonne comme ayant des données
-                    }
-                });
-              }  
-            }); 
+                if (infoResponse.ok) {
 
-             // On vérifie si le groupe de 5 colonnes dynamiques contient la moindre données
-            function estGroupeActif(indexDeDepart) {
-                for (let i = 0; i < 5; i++) {
-                    if (colonnesAvecDonnees.has(indexDeDepart +i)) return true;
+                    infosGroupes =
+                        await infoResponse.json();
+
+                    console.log(
+                        "infos.json chargé",
+                        infosGroupes
+                    );
+
+                } else {
+
+                    console.warn(
+                        "Fichier infos.json non trouvé."
+                    );
                 }
-                return false; // Le groupe de 5 colonnes est 100% vide sur tout le fichier
-              }
 
-            // 2. Construction du tableau HTML
-            let htmlRaw = "<table><thead>";
+            } catch (e) {
+
+                console.warn(
+                    "Impossible de charger infos.json :",
+                    e
+                );
+            }
+
+            /* =================================================
+                CHARGEMENT DU CSV
+            ================================================== */
+            const response =
+                await fetch(csvFileUrl);
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Le fichier 'donnees.csv' est introuvable."
+                );
+            }
+
+            /* =================================================
+                LECTURE WINDOWS-1252
+              ================================================= */
+            const buffer =
+                await response.arrayBuffer();
+
+            const decoder =
+                new TextDecoder('windows-1252');
+
+            const textData =
+                decoder.decode(buffer);
+
+            const lines =
+                textData.split(/\r?\n/);
+
+            if (lines.length === 0) {
+
+                throw new Error(
+                    "Le fichier CSV est vide."
+                );
+            }
+
+            /* =================================================
+                DÉTECTION DES COLONNES AVEC DONNÉES
+              ================================================= */
+            const colonnesAvecDonnees =
+                new Set();
+
+            lines.forEach(
+                (line, rowIndex) => {
+
+                    if (
+                        line.trim() === "" ||
+                        /^;+$/.test(line.trim())
+                    ) {
+                        return;
+                    }
+
+                    if (rowIndex >= 2) {
+
+                        const cells =
+                            line.split(';');
+
+                        cells.forEach(
+                            (cellValue, colIndex) => {
+
+                                if (
+                                    cellValue.trim() !== ""
+                                ) {
+
+                                    colonnesAvecDonnees
+                                        .add(colIndex);
+                                }
+                            }
+                        );
+                    }
+                }
+            );
+
+
+            /* =================================================
+                TEST D'ACTIVITÉ D'UN GROUPE DE 5
+              ================================================= */
+            function estGroupeActif(
+                indexDeDepart
+            ) {
+
+                for (let i = 0; i < 5; i++) {
+
+                    if (
+                        colonnesAvecDonnees.has(
+                            indexDeDepart + i
+                        )
+                    ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            /* =========================================================
+                TEST : LA LIGNE POSSÈDE-T-ELLE UNE DONNÉE VISIBLE ?
+            ========================================================= */
+            function ligneAUneDonneeVisible(cells) {
+            
+                for (let debutGroupe = 3;
+                    debutGroupe < cells.length;
+                    debutGroupe += 5) {
+                    
+                    // On ne regarde que les groupes qui restent visibles
+                    if (!estGroupeActif(debutGroupe)) {
+                        continue;
+                    }
+                
+                    // Recherche d'au moins une cellule réellement remplie
+                    for (let i = 0; i < 5; i++) {
+                    
+                        const index = debutGroupe + i;
+                    
+                        if (index < cells.length &&
+                            cells[index].trim() !== "") {
+                            
+                            return true;
+                        }
+                    }
+                }
+            
+                return false;
+            }
+
+            /* =================================================
+                CONSTRUCTION DU TABLEAU
+              ================================================= */
+            let htmlRaw =
+                "<table><thead>";
+
             let isBodyOpen = false;
-            // --- CONFIGURATION DE VOS COLONNES À COLORER ---
-            // Indiquez ici les index (commençant à 0) des colonnes de choix que vous voulez colorer
-            // Exemple : index 4 (5ème colonne) et index 9 (10ème colonne)
-            const colonnesDeChoix = [4,9,14,19,24,29,34,39,44,49,54,59,64,69,74,79,84,89,94,99]; // Modifiez selon vos besoins
 
-            lines.forEach((line, rowIndex) => {
-                    // Nettoie les lignes vides, les lignes d'espaces et les résidus Excel (;;;;;)
-                    if (line.trim() === "" || /^;+$/.test(line.trim())) return;                             
+            /* =================================================
+                COLONNES DE CHOIX
+              ================================================= */
+            const colonnesDeChoix = [
+                4, 9, 14, 19, 24,
+                29, 34, 39, 44,
+                49, 54, 59, 64,
+                69, 74, 79, 84,
+                89, 94, 99
+            ];
 
-                    const cells = line.split(';');
+            /* =================================================
+                LECTURE DES LIGNES
+              ================================================= */
+            lines.forEach(
+                (line, rowIndex) => {
 
-                    // Gestion des classes de lignes d'en-tête (sticky)
-                    let rowClass = "";
-                    if (rowIndex === 0) rowClass = ' class="sticky-row-1"';
-                    else if (rowIndex === 1) rowClass = ' class="sticky-row-2"';
+                    /* -----------------------------------------
+                        IGNORE LES LIGNES VIDES
+                      ----------------------------------------- */
+                    if (
+                        line.trim() === "" ||
+                        /^;+$/.test(line.trim())
+                    ) {
 
-                    // Transition entre l'en-tête (thead) et le corps (tbody)
-                    if (rowIndex === 2 && !isBodyOpen) {
+                        return;
+                    }
+
+                    const cells =
+                        line.split(';');
+                    /* Passage au tbody dès la première ligne de données */
+                    if (rowIndex >= 2 && !isBodyOpen) {
                         htmlRaw += "</thead><tbody>";
                         isBodyOpen = true;
+                    }    
+
+                    /* =================================================
+                        MASQUAGE DES PERSONNES SANS DONNÉE VISIBLE
+                      ================================================= */
+                    if (
+                        rowIndex >= 2 &&
+                        !ligneAUneDonneeVisible(cells)
+                    ) {
+                        return;
+                    }    
+
+                    /* -----------------------------------------
+                        CLASSES DES LIGNES D'EN-TÊTE
+                      ----------------------------------------- */
+                    let rowClass = "";
+
+                    if (rowIndex === 0) {
+
+                        rowClass =
+                            ' class="sticky-row-1"';
+
+                    } else if (rowIndex === 1) {
+
+                        rowClass =
+                            ' class="sticky-row-2"';
                     }
-                  
-                    htmlRaw += `<tr${rowClass}>`; 
-                    
-                    // On utilise un index de cellule virtuel pour gérer les sauts (skip) de fusions corrctement
+
+                    htmlRaw +=
+                        `<tr${rowClass}>`;
+
+                    /* -----------------------------------------
+                        INDEX VIRTUEL
+                      ----------------------------------------- */
                     let colVirtualIndex = 0;
 
-                    for (let colIndex = 0; colIndex < cells.length; colIndex++) {
-                        let cleanValue = cells[colIndex].trim();
-                        const cellTag = rowIndex < 2 ? 'th' : 'td';
-                    
-                    //---Configuration auto des masquage de groupes
+                    /* =================================================
+                        TRAITEMENT DES CELLULES
+                      ================================================= */
+                    for (
+                        let colIndex = 0;
+                        colIndex < cells.length;
+                        colIndex++
+                    ) {
 
+                        let cleanValue =
+                            cells[colIndex].trim();
+
+                        const cellTag =
+                            rowIndex < 2
+                                ? 'th'
+                                : 'td';
+
+                        /* =============================================
+                            MASQUAGE AUTOMATIQUE DES GROUPES VIDES
+                          ============================================= */
                         if (colIndex >= 3) {
-                            // Calcule l'index de départ du groupe de 5 auquel appartient la colonne actuelle (3,8,13,18,23...)
-                        const startGroupIdx = 3 + Math.floor((colIndex -3) / 5) * 5;
-                            // Si ce groupe spécifique est complètement vide, on l'ignore silencieusement
-                            if  (!estGroupeActif(startGroupIdx)) {
-                                continue; // Passe directement à la ligne suivante (ligne1, ligne2 et tbody inclus !)                                
+
+                            const startGroupIdx =
+                                3 +
+                                Math.floor(
+                                    (colIndex - 3) / 5
+                                ) * 5;
+
+                            if (
+                                !estGroupeActif(
+                                    startGroupIdx
+                                )
+                            ) {
+
+                                continue;
                             }
                         }
-                            
-                    // --- CSS DES COLONNES FIXES ---
-                    let cellClass = "";
-                    if (colIndex === 0) cellClass = 'col-1';
-                    else if (colIndex === 1) cellClass = 'col-2';
-                    else if (colIndex === 2) cellClass = 'col-3';
-                    else cellClass = 'dynamic-col';
 
-                    // --- CORRECTION DU FILTRE DES TEMPS (Moins de 1 heure -> mm:ss) ---
-                    if (cleanValue.includes(':')) {
-                        const timeParts = cleanValue.split(':');
-                        if (timeParts.length === 3) {
-                            const hours = timeParts[0].trim();
-                            if (hours === '00' || hours === '0' || hours === '') {
-                                cleanValue = `${timeParts[1]}:${timeParts[2]}`; 
+                        /* =============================================
+                            CLASSES DES COLONNES
+                          ============================================= */
+                        let cellClass = "";
+
+                        if (colIndex === 0) {
+
+                            cellClass = "col-1";
+
+                        } else if (colIndex === 1) {
+
+                            cellClass = "col-2";
+
+                        } else if (colIndex === 2) {
+
+                            cellClass = "col-3";
+
+                        } else {
+
+                            cellClass = "dynamic-col";
+                        }
+
+                        /* =============================================
+                            CORRECTION DES TEMPS
+                          ============================================= */
+                        if (cleanValue.includes(':')) {
+
+                            const timeParts =
+                                cleanValue.split(':');
+
+                            if (
+                                timeParts.length === 3
+                            ) {
+
+                                const hours =
+                                    timeParts[0].trim();
+
+                                if (
+                                    hours === '00' ||
+                                    hours === '0' ||
+                                    hours === ''
+                                ) {
+
+                                    cleanValue =
+                                        `${timeParts[1]}:${timeParts[2]}`;
+                                }
                             }
                         }
-                    }                    
 
-                        // --- COLORATION DES COLONNES DE CHOIX ---
-                    if (colonnesDeChoix.includes(colIndex) && rowIndex >= 2) {
-                        cellClass += ' col-choix';
-                    }
+                        /* =============================================
+                            COLORATION DES COLONNES DE CHOIX
+                          ============================================= */
+                        if (
+                            colonnesDeChoix.includes(
+                                colIndex
+                            ) &&
+                            rowIndex >= 2
+                        ) {
 
-                    // ---RÉCUPÉRATION DU CONTENU DE LA CELLULE AVEC LIEN CLIQUABLE---
-                    // Gestion des liens cliquables
-                    let displayContent = cleanValue;
-
-                    // A. Vérifie si le texte exact de la cellule est présent dans votre dictionnaire
-                    if (liensPersonnalises[cleanValue]) {
-
-                        displayContent = `<a href="${liensPersonnalises[cleanValue]}" target="_blank">${cleanValue}</a>`;
-                    }
-                    // B. Sécurité : Si la cellule contient déjà un lien brut écrit en texte (http...)
-                    else if (cleanValue.startsWith('http://') || cleanValue.startsWith('https://')) {
-                        displayContent = `<a href="${cleanValue}" target="_blank">${cleanValue}</a>`;
-                    }
-                    
-                    // --- DÉTECTION ET FOND NEUTRE POUR LES GROUPES DE 5 CELLULES VIDES ---
-                    if (rowIndex >= 2 && colIndex >= 3) {
-                        // On calcule à quel groupe de 5 appartient la cellule (ex: col 3 à 7 = groupe 0, col 8 à 12 = groupe 1)
-                        const debutGroupe = 3 + Math.floor((colIndex - 3) / 5) * 5;
-                        const finGroupe = debutGroupe + 5;
-
-                        // On extrait les 5 cellules de ce groupe sur la ligne actuelle
-                        const cellulesDuGroupe = cells.slice(debutGroupe, finGroupe);
-
-                        // On vérifie si TOUTES les cellules de ce groupe sont vides
-                        const estGroupeEntierementVide = cellulesDuGroupe.every(val => val.trim() === "");
-
-                        if (estGroupeEntierementVide) {
-                            cellClass += ' groupe-vide';
+                            cellClass +=
+                                ' col-choix';
                         }
-                    }
 
+                        /* =============================================
+                            CONTENU AVEC LIEN
+                          ============================================= */
+                        let displayContent =
+                            cleanValue;
 
-                    // --- CORRECTION DES DATES EXCEL (Ex: "sept.-12" ou "09/12/2026" -> "9/12") ---
-                    // Détecte le format de date généré par Excel (ex: sep-12, sept.-12, 09/12/2012)
-                    if (cleanValue.includes('-') || (cleanValue.includes('/') && cleanValue.split('/').length === 3)) {
-                        // Liste des mois pour faire la correspondance
-                        const mois = {
-                            "janv": "1", "févr": "2", "mars": "3", "avr": "4", "mai": "5", "juin": "6",
-                            "juil": "7", "août": "8", "sept": "9", "oct": "10", "nov": "11", "déc": "12",
-                            "sep": "9", "feb": "2", "apr": "4", "aug": "8", "dec": "12" // Sécurité anglais/raccourcis
-                        };
-                      
-                        // Cas 1 : Excel a exporté sous forme "sept.-12" ou "sep-12"
-                        if (cleanValue.includes('-')) {
-                            const parts = cleanValue.toLowerCase().replace('.', '').split('-');
-                            if (parts.length === 2 && mois[parts[0]]) {
-                                cleanValue = `${mois[parts[0]]}/${parts[1]}`;
+                        if (
+                            liensPersonnalises[
+                                cleanValue
+                            ]
+                        ) {
+
+                            displayContent = `
+
+                                <a
+                                    href="${liensPersonnalises[cleanValue]}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    ${cleanValue}
+                                </a>
+                            `;
+
+                        } else if (
+                            cleanValue.startsWith(
+                                'http://'
+                            ) ||
+                            cleanValue.startsWith(
+                                'https://'
+                            )
+                        ) {
+
+                            displayContent = `
+
+                                <a
+                                    href="${cleanValue}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    ${cleanValue}
+                                </a>
+
+                            `;
+                        }
+
+                        /* =============================================
+                            FOND NEUTRE DES GROUPES VIDES SUR UNE LIGNE
+                          ============================================= */
+                        if (
+                            rowIndex >= 2 &&
+                            colIndex >= 3
+                        ) {
+
+                            const debutGroupe =
+                                3 +
+                                Math.floor(
+                                    (colIndex - 3) / 5
+                                ) * 5;
+
+                            const finGroupe =
+                                debutGroupe + 5;
+
+                            const cellulesDuGroupe =
+                                cells.slice(
+                                    debutGroupe,
+                                    finGroupe
+                                );
+
+                            const estGroupeEntierementVide =
+                                cellulesDuGroupe.every(
+                                    val =>
+                                        val.trim() === ""
+                                );
+
+                            if (
+                                estGroupeEntierementVide
+                            ) {
+
+                                cellClass +=
+                                    ' groupe-vide';
                             }
                         }
-                        // Cas 2 : Excel a exporté sous forme "09/12/2012" (format date complet jj/mm/aaaa ou mm/jj/aaaa)
-                        // Si votre colonne Pl. exprime la 9ème place sur 12, Excel stocke souvent le 9 du mois sur le 12ème mois
-                        else {
-                            const parts = cleanValue.split('/');
-                            // On récupère le jour (09 -> 9) et le mois (12)
-                            const jour = parseInt(parts[0], 10);
-                            const moisNum = parseInt(parts[1], 10);
-                            if (moisNum === 12) { // Sécurité pour s'assurer qu'on cible votre format sur 12
-                                cleanValue = `${jour}/${moisNum}`;
-                            }
-                        }
-                    } 
 
-                    // --- CONFIGURATION DE VOS FUSIONS DE LIGNES (Ligne 1) ---
-                    let colspanAttr = "";
-                    let skipCell = false;
+                        /* =============================================
+                            CORRECTION DES DATES EXCEL
+                          ============================================= */
+                        if (
+                            cleanValue.includes('-') ||
+                            (
+                                cleanValue.includes('/') &&
+                                cleanValue
+                                    .split('/')
+                                    .length === 3
+                            )
+                        ) {
 
-                    if (rowIndex === 0) {  
-                    // Bloc fusionné 1 (index 0 à 2)
-                    if (colIndex === 0) {                    
-                      colspanAttr = ' colspan="3"'; 
-                    } else if (colIndex === 1 || colIndex === 2) { skipCell = true; }  
-                                      
-                    // Traitement auto de 20 Grandes groupe colonnes
-                    else if (colIndex >=3) { 
-                    // On trouve l'emplacement relatif de la colonne àl'intérieur de son bloc de 5(0,1,2,3,4)
-                            const positionDansLeBloc = (colIndex - 3) % 5;  
-                            if (positionDansLeBloc === 0) {
-                            // C'est la première colonne d'un bloc actif : on lui donne sa fusion de 5
-                            colspanAttr = ' colspan="5" ';  
+                            const mois = {
+
+                                "janv": "1",
+                                "févr": "2",
+                                "mars": "3",
+                                "avr": "4",
+                                "mai": "5",
+                                "juin": "6",
+                                "juil": "7",
+                                "août": "8",
+                                "sept": "9",
+                                "oct": "10",
+                                "nov": "11",
+                                "déc": "12",
+
+                                "sep": "9",
+                                "feb": "2",
+                                "apr": "4",
+                                "aug": "8",
+                                "dec": "12"
+                            };
+
+                            if (
+                                cleanValue.includes('-')
+                            ) {
+
+                                const parts =
+                                    cleanValue
+                                        .toLowerCase()
+                                        .replace('.', '')
+                                        .split('-');
+
+                                if (
+                                    parts.length === 2 &&
+                                    mois[parts[0]]
+                                ) {
+
+                                    cleanValue =
+                                        `${mois[parts[0]]}/${parts[1]}`;
+                                }
+
                             } else {
-                            // Ce sont les 4 cellules suivantes du bloc: on les fusionne (efface)
-                            skipCell = true;                            
+
+                                const parts =
+                                    cleanValue.split('/');
+
+                                const jour =
+                                    parseInt(
+                                        parts[0],
+                                        10
+                                    );
+
+                                const moisNum =
+                                    parseInt(
+                                        parts[1],
+                                        10
+                                    );
+
+                                if (
+                                    moisNum === 12
+                                ) {
+
+                                    cleanValue =
+                                        `${jour}/${moisNum}`;
+                                }
                             }
-                          }  
                         }
-                        if (skipCell) continue;
 
-                        htmlRaw += `<${cellTag} class="${cellClass}"${colspanAttr}>${displayContent}</${cellTag}>`;
+                        /* =================================================
+                            FUSIONS DE LA LIGNE 1
+                          ================================================= */
+                        let colspanAttr = "";
+
+                        let skipCell = false;
+
+                        if (rowIndex === 0) {
+
+                            /* ---------------------------------------------
+                                GROUPE FIXE DES 3 PREMIÈRES COLONNES
+                              --------------------------------------------- */
+                            if (colIndex === 0) {
+
+                                colspanAttr =
+                                    ' colspan="3"';
+
+                            } else if (
+                                colIndex === 1 ||
+                                colIndex === 2
+                            ) {
+
+                                skipCell = true;
                             }
 
-                        htmlRaw += "</tr>";
-                        });
+                            /* ---------------------------------------------
+                                GROUPES DE 5 COLONNES
+                              --------------------------------------------- */
+                            else if (
+                                colIndex >= 3
+                            ) {
 
-                      htmlRaw += isBodyOpen ? "</tbody></table>"  : "</thead></table>";
-                      
-                      const container = document.getElementById('excel-table-container');
-                      container.innerHTML = htmlRaw;
+                                const positionDansLeBloc =
+                                    (colIndex - 3) % 5;
 
-                      document.getElementById('loading').style.display = 'none';
+                                if (
+                                    positionDansLeBloc === 0
+                                ) {
 
-                  } catch (error) {
-                      console.error("Détails :", error);
-                      document.getElementById('loading').innerText = "Erreur : " + error.message;
-                  }
-              }
+                                    /* ===============================
+                                        FUSION DE 5 COLONNES
+                                      =============================== */
+                                    colspanAttr =
+                                        ' colspan="5" ';
 
-              window.onload = loadCsvTable;
+                                    /* ===============================
+                                        NUMÉRO DU GROUPE
+                                      =============================== */
+                                    const numeroGroupe =
+                                        Math.floor(
+                                            (colIndex - 3) / 5
+                                        ) + 1;
+
+                                    const cleInfo =
+                                        "groupe" +
+                                        numeroGroupe;
+
+                                    /* ===============================
+                                        AJOUT DU BOUTON INFO
+                                      =============================== */
+                                    if (
+                                        infosGroupes[
+                                            cleInfo
+                                        ]
+                                    ) {
+
+                                        displayContent += `
+
+                                            <button
+                                                type="button"
+                                                class="info-btn"
+                                                data-info="${cleInfo}"
+                                                aria-label="Informations"
+                                                title="Informations complémentaires"
+                                            >
+                                                ⓘ
+                                            </button>
+
+                                        `;
+                                    }
+
+                                } else {
+
+                                    skipCell = true;
+                                }
+                            }
+                        }
+
+                        /* ---------------------------------------------
+                            CELLULE IGNORÉE
+                          --------------------------------------------- */
+                        if (skipCell) {
+                            continue;
+                        }
+
+                        /* ---------------------------------------------
+                            CRÉATION DE LA CELLULE
+                          --------------------------------------------- */
+                        htmlRaw +=
+                            `<${cellTag}
+                                class="${cellClass}"
+                                ${colspanAttr}>
+                                ${displayContent}
+                            </${cellTag}>`;
+
+                    }
+
+                    htmlRaw += "</tr>";
+
+                }
+            );
+
+            /* =========================================================
+                FIN DU TABLEAU
+              ========================================================= */
+            htmlRaw +=
+                isBodyOpen
+                    ? "</tbody></table>"
+                    : "</thead></table>";
+
+            /* =========================================================
+                AFFICHAGE
+              ========================================================= */
+            const container =
+                document.getElementById(
+                    'excel-table-container'
+                );
+
+            container.innerHTML =
+                htmlRaw;
+
+            document.getElementById(
+                'loading'
+            ).style.display = 'none';
+
+        } catch (error) {
+
+            console.error(
+                "Détails :",
+                error
+            );
+
+            document.getElementById(
+                'loading'
+            ).innerText =
+                "Erreur : " + error.message;
+        }
+
+    }
+
+    /* =========================================================
+        FENÊTRE D'INFORMATIONS
+      ========================================================= */
+    const infoModal =
+        document.getElementById(
+            'info-modal'
+        );
+
+    const infoModalTitle =
+        document.getElementById(
+            'info-modal-title'
+        );
+
+    const infoModalBody =
+        document.getElementById(
+            'info-modal-body'
+        );
+
+    /* =========================================================
+        OUVERTURE
+      ========================================================= */
+    function ouvrirInfo(cleInfo) {
+
+        const info =
+            infosGroupes[cleInfo];
+
+        if (!info) {
+
+            return;
+        }
+
+        /* -----------------------------------------
+            TITRE
+          ----------------------------------------- */
+        infoModalTitle.textContent =
+            info.titre || "Informations";
+
+        /* -----------------------------------------
+            NETTOYAGE
+          ----------------------------------------- */
+        infoModalBody.innerHTML = "";
+
+        /* -----------------------------------------
+            TEXTES
+          ----------------------------------------- */
+        if (
+            Array.isArray(info.textes)
+        ) {
+
+            info.textes.forEach(
+                texte => {
+
+                    const p =
+                        document.createElement(
+                            "p"
+                        );
+
+                    p.className =
+                        "info-modal-text";
+
+                    p.textContent =
+                        texte;
+
+                    infoModalBody.appendChild(
+                        p
+                    );
+
+                }
+            );
+        }
+
+        /* -----------------------------------------
+            LIENS
+          ----------------------------------------- */
+        if (
+            Array.isArray(info.liens) &&
+            info.liens.length > 0
+        ) {
+
+            const blocLiens =
+                document.createElement(
+                    "div"
+                );
+
+            info.liens.forEach(
+                lien => {
+
+                    const p =
+                        document.createElement(
+                            "p"
+                        );
+
+                    const a =
+                        document.createElement(
+                            "a"
+                        );
+
+                    a.href =
+                        lien.url;
+
+                    a.target =
+                        "_blank";
+
+                    a.rel =
+                        "noopener noreferrer";
+
+                    a.textContent =
+                        "→ " + lien.texte;
+
+                    p.appendChild(a);
+
+                    blocLiens.appendChild(p);
+
+                }
+            );
+
+            infoModalBody.appendChild(
+                blocLiens
+            );
+        }
+
+        /* -----------------------------------------
+            DATE DE MISE À JOUR
+          ----------------------------------------- */
+        if (info.maj) {
+
+            const maj =
+                document.createElement(
+                    "p"
+                );
+
+            maj.style.fontSize =
+                "11px";
+
+            maj.style.opacity =
+                "0.7";
+
+            maj.style.marginTop =
+                "15px";
+
+            maj.textContent =
+                "Mis à jour le " +
+                info.maj;
+
+            infoModalBody.appendChild(
+                maj
+            );
+        }
+
+        /* -----------------------------------------
+            AFFICHAGE
+          ----------------------------------------- */
+        infoModal.style.display =
+            "flex";
+    }
+
+    /* =========================================================
+        FERMETURE
+      ========================================================= */
+    function fermerInfo() {
+
+        infoModal.style.display =
+            "none";
+    }
+
+    /* =========================================================
+        CLIC SUR UN BOUTON ⓘ
+      ========================================================= */
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            const bouton =
+                event.target.closest(
+                    ".info-btn"
+                );
+
+            if (bouton) {
+
+                const cleInfo =
+                    bouton.dataset.info;
+
+                ouvrirInfo(
+                    cleInfo
+                );
+            }
+
+        }
+    );
+
+    /* =========================================================
+        BOUTON X
+      ========================================================= */
+    document
+        .querySelector(
+            ".info-modal-close"
+        )
+        .addEventListener(
+            "click",
+            fermerInfo
+        );
+
+    /* =========================================================
+        BOUTON FERMER
+      ========================================================= */
+    document
+        .getElementById(
+            "info-modal-close-btn"
+        )
+        .addEventListener(
+            "click",
+            fermerInfo
+        );
+
+    /* =========================================================
+        CLIC EN DEHORS DE LA FENÊTRE
+      ========================================================= */
+    infoModal.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === infoModal
+            ) {
+
+                fermerInfo();
+            }
+
+        }
+    );
+
+    /* =========================================================
+        TOUCHE ÉCHAP
+      ========================================================= */
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+        
+                fermerInfo();
+            }
+
+        }
+    );
+
+    /* =========================================================
+        LANCEMENT
+      ========================================================= */
+    window.onload =
+        loadCsvTable;
+
     </script>
-    </div>
-    </div>  
-    <p style=" color :#e0dada ">Tableau mis à jour le 30/09/2026 08:35</p>
+</div>
+
+<!-- =========================================================
+    PIED DE PAGE
+    ========================================================= -->
+<p style="color:#e0dada">
+
+    Tableau des horaires et résultats
+    mis à jour le 07/11/2026 19:17</p>
 </body>
 </html>

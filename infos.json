@@ -1,0 +1,577 @@
+{
+  "groupe1": {
+    "titre": "Sprint Vittel(88) 16/08",
+    "textes": [
+    ""      
+    ],
+    "liens": [
+      {
+        "texte": "Résultats circuits",
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/Resultats-par-circuits.pdf"
+      },
+      {
+        "texte": "Temps intermédiaires",
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/Resultats-par-categories-temps-intermediaires.pdf"
+      },
+      {
+        "texte": "",
+        "url": ""
+      },      
+      {
+        "texte": "",
+        "url": ""
+      }
+    ],
+    "maj": "07/11/2026 21:40"
+  },
+
+  "groupe2": {
+    "titre": "LD Tignécourt(88) 17/08",
+    "textes": [
+      ""
+    ],
+    "liens": [
+      {
+        "texte": "Résultats circuits",
+        "url": "https://drive.google.com/file/d/140MoZMCurZz9jTE859Bhge3CFZs46HQu/view?usp=sharing"
+      },
+      {
+        "texte": "Temps intermédiaires",
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/Resultats-par-categories-temps-intermediaires-1.pdf"
+      }
+    ],
+    "maj": "07/11/2026 21:40"
+  },
+
+  "groupe3": {
+    "titre": "MD Luxeuil(70) 19/08",
+    "textes": [
+      ""
+    ],
+    "liens": [
+      {
+        "texte": "Résultats circuits",
+        "url": "https://liveresultat.orientering.se/followfull.php?comp=37280&lang=fr"
+      },
+      {
+        "texte": "Temps intermédiaires",
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/Resultats-par-categories-temps-intermediaires-2.pdf"
+      }
+    ],
+    "maj": "07/11/2026 21:40"
+  },
+
+    "groupe4": {
+    "titre": "VTT-MD Luxeuil(70) 19/08",
+    "textes": [
+      "",
+      ""
+    ],
+    "liens": [
+      {
+        "texte": "Résultats circuits",
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/Resulats-MD-VTT-par-circuits.pdf"
+      },
+      {
+        "texte": "Temps intermédiaires",        
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/Resulats-detailles-MD-VTT-par-circuits.pdf"
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte": "",
+        "url": ""
+      }
+    ],
+    "maj": "07/11/2026 21:40"
+  },
+
+  "groupe5": {
+    "titre": "MD Monthureux(88) 21/08",
+    "textes": [
+      "" 
+    ],
+    "liens": [
+      {        
+        "texte": "Résultats circuits",        
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/Resultats-par-circuits-3.pdf"
+      },
+      {         
+        "texte":"Temps intermédiaires",
+        "url":"https://terres-do.fr/wp-content/uploads/2026/08/Resultats-par-categories-temps-intermediaires-3.pdf"
+      },      
+      {
+        "texte": "",        
+        "url": ""
+      },
+      {
+        "texte": "",
+        "url": ""
+      }
+    ],
+    "maj": "07/11/2026 21:40"
+  },
+  "groupe6": {
+    "titre": "CF Relais de Cat. Claudon(88) 22/08",
+    "textes": [
+      "",
+      "",
+      ""     
+        ],
+    "liens": [
+      {
+        "texte": "Résultats relais de catégories",
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/RESULTATS-RELAIS.pdf"
+      },
+      {
+        "texte": "",
+        "url": ""
+      },      
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "07/11/2026 21:40"
+  },
+  "groupe7": {
+    "titre": "CF LD & Open Claudon(88) 23/08",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "Résultats catégories",
+        "url": "https://terres-do.fr/wp-content/uploads/2026/08/RESULTATS-CF-LD-2026.pdf"
+      },
+      {
+        "texte":"Temps intermédiaires",
+        "url":"https://terres-do.fr/wp-content/uploads/2026/08/RESULTATS-CF-LD-2026.pdf"
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "07/11/2026 21:40"
+  },
+  "groupe8": {
+    "titre": "CO-VTT LD Charroux(03) 29/08",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "Résultats circuits",
+        "url": "https://drive.google.com/file/d/1tx5AeFR9xALp9lwuRf4rCn2EFOUmewsZ/view?usp=sharing"
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "07/11/2026 21:40"
+  },
+  "groupe9": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe10": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe11": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe12": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe13": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe14": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe15": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe16": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe17": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe18": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe19": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  },
+  "groupe20": {
+    "titre": "",
+    "textes": [
+      "",
+      "",
+      ""  
+    ],
+    "liens": [
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",
+        "url": ""
+      },
+      {
+        "texte":"",
+        "url":""
+      },
+      {
+        "texte": "",        
+        "url": ""
+      }
+    ],
+    "maj": "18/10/2026 15:36"
+  }  
+}
